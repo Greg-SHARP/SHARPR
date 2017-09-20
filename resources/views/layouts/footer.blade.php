@@ -38,5 +38,5 @@
 <!-- Footer End -->
 
 <div class="inner_wrap">
-	<p class="copyright_text">&copy; 2017 The Way</p>
+	<p class="copyright_text">&copy; 2017 SHRPR</p>
 </div>

@@ -1,7 +1,7 @@
 <header>
 	<div class="inner_wrap">
 		<a href="#" class="header_logo">
-			<img src="img/theway-logo.jpg" alt="The Way" title="The Way">
+			<img src="img/theway-logo.jpg" alt="SHRPR" title="SHRPR">
 		</a>
 
 		<a href="javascript:void(0);" class="search_trigger">

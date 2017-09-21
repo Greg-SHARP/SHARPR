@@ -15,4 +15,10 @@
 			</div><!-- .swiper -->
 		</div>
 	</main>
+
+	@if( DB::connection()->getDatabaseName() )
+		<h1 style="padding: 10px;">{{ "Connected to database " . DB::connection()->getDatabaseName() }}</h1>
+	@endif
+
+	<h1 style="padding: 10px;">{{ "Environment " . App::environment() }}</h1>
 @endsection

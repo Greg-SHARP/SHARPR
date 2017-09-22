@@ -3,7 +3,7 @@
 body, html {
 	font-family: Arial;
 	font-size: 100%;                                          				/* default font  size - 100% = 16px*/
-	background:#eee !important;
+	background:#282b2e;
 }
 
 form, body {
@@ -55,15 +55,17 @@ ul, dl, h1, h2, h3, p, ol {
 /* =============Header Area Start============================ */
 header {
 	background-color:#ffffff;
-	padding: 15px 0 15px 0;
+	padding: 10px 0 10px 0;
     text-align: right;
 }
 
 .header_logo {
     float: left;
-    margin: 9px 0 0;
-    max-width: 181px;
-    width: 50%;
+    max-width: 70px;
+    width: 20%;
+}
+.header_logo {
+	display: block;
 }
 .search_trigger, .menu_trigger {
     border: 2px solid #f3f3f3;
@@ -99,11 +101,15 @@ footer {
 	font-size:14px;
 	float:left;
 	width:49%;
-	height:25px;
+	height:35px;
 	color:#ffffff;
 	border:none;
 	background:#52565c;
 	padding:5px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-ms-box-sizing: border-box;
 }
 .signup_box input:first-child {
 	margin-right:2%;
@@ -119,6 +125,12 @@ footer {
 	width:100%;
 	box-sizing:border-box;
 	margin:10px 0 0 0;
+	cursor: pointer;
+}
+.signup_box input[type=button]:hover {
+	background:#fc6a02;
+	color: #ffffff;
+
 }
 .signup_box > span, .social_icon > span {
     color: #ffffff;
@@ -131,6 +143,10 @@ footer {
 	display:inline-block;
 	vertical-align:middle;
 	margin:0 5px 0 0;
+}
+.social_icon a:hover {
+	opacity: 0.60;
+
 }
 .copyright_text {
 	font-size:12px;
@@ -219,7 +235,6 @@ footer {
 }
 .swiper{
 	border-top: 1px solid #ccc;
-	padding: 10px 0;
 	text-align: center;
 	width: 100%;
 }

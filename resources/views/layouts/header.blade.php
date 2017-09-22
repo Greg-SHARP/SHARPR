@@ -1,5 +1,5 @@
 <header>
-	<div class="inner_wrap">
+	<div class="inner_wrap clearfix">
 		<a href="#" class="header_logo">
 			<img src="img/SHRPR-logo.jpg" alt="SHRPR" title="SHRPR">
 		</a>

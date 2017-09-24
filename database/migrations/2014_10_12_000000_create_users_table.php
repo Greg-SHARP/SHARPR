@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->enum('status', ['inactive', 'active', 'blocked']);
             $table->boolean('verified');
-            $table->integer('referred_by')->unsigned()->nullable()->on('users');
+            $table->integer('referred_by')->unsigned()->nullable()->references('id')->on('users');
             $table->json('details');
             $table->timestamps();
         });

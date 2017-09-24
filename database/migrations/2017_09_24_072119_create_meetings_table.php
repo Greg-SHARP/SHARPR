@@ -16,7 +16,7 @@ class CreateMeetingsTable extends Migration
         Schema::create('meetings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('course_id')->unsigned()->references('id')->on('courses');
-            $table->integer('substitute')->unsigned()->nullable()->on('instructors');
+            $table->integer('substitute')->unsigned()->nullable()->references('id')->on('instructors');
             $table->dateTime('start');
             $table->dateTime('end');
             $table->timestamps();

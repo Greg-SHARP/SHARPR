@@ -14,8 +14,8 @@ class CreateCourseTagTable extends Migration
     public function up()
     {
         Schema::create('course_tag', function (Blueprint $table) {
-            $table->integer('course_id')->unsigned()->on('courses');
-            $table->integer('tag_id')->unsigned()->on('tags');
+            $table->integer('course_id')->unsigned()->references('id')->on('courses');
+            $table->integer('tag_id')->unsigned()->references('id')->on('tags');
         });
     }
 

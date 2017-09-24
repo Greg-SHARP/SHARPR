@@ -14,8 +14,8 @@ class CreateUserTypeTable extends Migration
     public function up()
     {
         Schema::create('user_type', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->references('id')->on('users');
-            $table->integer('type_id')->unsigned()->references('id')->on('types');
+            $table->integer('user_id')->unsigned()->on('users');
+            $table->integer('type_id')->unsigned()->on('types');
         });
     }
 

@@ -14,8 +14,8 @@ class CreateUserCertificateTable extends Migration
     public function up()
     {
         Schema::create('user_certificate', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->references('id')->on('users');
-            $table->integer('certificate_id')->unsigned()->references('id')->on('certificates');
+            $table->integer('user_id')->unsigned()->on('users');
+            $table->integer('certificate_id')->unsigned()->on('certificates');
         });
     }
 

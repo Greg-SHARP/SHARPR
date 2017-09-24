@@ -14,8 +14,8 @@ class CreateCourseCategoryTable extends Migration
     public function up()
     {
         Schema::create('course_category', function (Blueprint $table) {
-            $table->integer('course_id')->unsigned()->references('id')->on('courses');
-            $table->integer('category_id')->unsigned()->references('id')->on('categories');
+            $table->integer('course_id')->unsigned()->on('courses');
+            $table->integer('category_id')->unsigned()->on('categories');
         });
     }
 

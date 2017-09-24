@@ -13,7 +13,5 @@
 
 Route::get('/', function () {
 
-	//$courses = DB::table('courses')->get();
-
     return view('index');
 });

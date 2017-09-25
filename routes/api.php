@@ -13,6 +13,26 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('/course', [
+
+	'uses' => 'CourseController@postCourse'
+]);
+
+Route::get('/courses', [
+
+	'uses' => 'CourseController@getCourses'
+]);
+
+Route::put('/course/{id}', [
+
+	'uses' => 'CourseController@putCourses'
+]);
+
+Route::put('/course/{id}', [
+
+	'uses' => 'CourseController@deleteCourses'
+]);

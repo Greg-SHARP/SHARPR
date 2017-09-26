@@ -17,22 +17,65 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::post('/course', [
+//Category
+Route::post('/category', ['uses' => 'CategoryController@postCategory']);
+Route::get('/categories', ['uses' => 'CategoryController@getCategories' ]);
+Route::get('/category/{id}', ['uses' => 'CategoryController@getCategory' ]);
+Route::put('/category/{id}', ['uses' => 'CategoryController@putCategory']);
+Route::put('/category/{id}', ['uses' => 'CategoryController@deleteCourse']);
 
-	'uses' => 'CourseController@postCourse'
-]);
+//Course
+Route::post('/course', ['uses' => 'CourseController@postCourse']);
+Route::get('/courses', ['uses' => 'CourseController@getCourses' ]);
+Route::get('/course/{id}', ['uses' => 'CourseController@getCourse' ]);
+Route::put('/course/{id}', ['uses' => 'CourseController@putCourse']);
+Route::put('/course/{id}', ['uses' => 'CourseController@deleteCourse']);
 
-Route::get('/courses', [
+//Certificate
+Route::post('/certificate', ['uses' => 'CertificateController@postCertificate']);
+Route::get('/certificates', ['uses' => 'CertificateController@getCertificates' ]);
+Route::get('/certificate/{id}', ['uses' => 'CertificateController@getCertificate' ]);
+Route::put('/certificate/{id}', ['uses' => 'CertificateController@putCertificate']);
+Route::put('/certificate/{id}', ['uses' => 'CertificateController@deleteCertificate']);
 
-	'uses' => 'CourseController@getCourses'
-]);
+//Instructor
+Route::post('/instructor', ['uses' => 'InstructorController@postInstructor']);
+Route::get('/instructors', ['uses' => 'InstructorController@getInstructors']);
+Route::get('/instructor/{id}', ['uses' => 'InstructorController@getInstructor']);
+Route::put('/instructor/{id}', ['uses' => 'InstructorController@putInstructor']);
+Route::put('/instructor/{id}', ['uses' => 'InstructorController@deleteInstructor']);
 
-Route::put('/course/{id}', [
+//Meeting
+Route::post('/meeting', ['uses' => 'MeetingController@postMeeting']);
+Route::get('/meetings', ['uses' => 'MeetingController@getMeetings']);
+Route::get('/meeting/{id}', ['uses' => 'MeetingController@getMeeting']);
+Route::put('/meeting/{id}', ['uses' => 'MeetingController@putMeetings']);
+Route::put('/meeting/{id}', ['uses' => 'MeetingController@deleteMeeting']);
 
-	'uses' => 'CourseController@putCourses'
-]);
+//Student
+Route::post('/student', ['uses' => 'StudentController@postStudent']);
+Route::get('/students', ['uses' => 'StudentController@getStudents']);
+Route::get('/student/{id}', ['uses' => 'StudentController@getStudent']);
+Route::put('/student/{id}', ['uses' => 'StudentController@putStudent']);
+Route::put('/student/{id}', ['uses' => 'StudentController@deleteStudent']);
 
-Route::put('/course/{id}', [
+//Tag
+Route::post('/tag', ['uses' => 'TagController@postTag']);
+Route::get('/tags', ['uses' => 'TagController@getTags']);
+Route::get('/tag/{id}', ['uses' => 'TagController@getTag']);
+Route::put('/tag/{id}', ['uses' => 'TagController@putTag']);
+Route::put('/tag/{id}', ['uses' => 'TagController@deleteTag']);
 
-	'uses' => 'CourseController@deleteCourses'
-]);
+//Type
+Route::post('/type', ['uses' => 'TypeController@postType']);
+Route::get('/types', ['uses' => 'TypeController@getTypes']);
+Route::get('/type/{id}', ['uses' => 'TypeController@getType']);
+Route::put('/type/{id}', ['uses' => 'TypeController@putType']);
+Route::put('/type/{id}', ['uses' => 'TypeController@deleteType']);
+
+//User
+Route::post('/user', ['uses' => 'UserController@postUser']);
+Route::get('/users', ['uses' => 'UserController@getUsers']);
+Route::get('/user/{id}', ['uses' => 'UserController@getUser']);
+Route::put('/user/{id}', ['uses' => 'UserController@putUser']);
+Route::put('/user/{id}', ['uses' => 'UserController@deleteUser']);

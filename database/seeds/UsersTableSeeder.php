@@ -17,14 +17,14 @@ class UsersTableSeeder extends Seeder
     	//create 1 admin
         $id = factory(User::class)->create()->id;
 
-        DB::table('user_type')->insert(['user_id' => $id, 'type_id' => 1]);
+        DB::table('type_user')->insert(['user_id' => $id, 'type_id' => 1]);
 
     	//create 10 instructors
         $users = factory(User::class, 10)->create();
 
         foreach($users as $user){
 
-        	DB::table('user_type')->insert(['user_id' => $user->id, 'type_id' => 2]);
+        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 2]);
         	factory(Instructor::class)->create([ 'user_id' => $user->id ]);
         }
 
@@ -33,7 +33,7 @@ class UsersTableSeeder extends Seeder
 
         foreach($users as $user){
 
-        	DB::table('user_type')->insert(['user_id' => $user->id, 'type_id' => 3]);
+        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 3]);
         	factory(Student::class)->create([ 'user_id' => $user->id ]);
         }
 
@@ -42,7 +42,7 @@ class UsersTableSeeder extends Seeder
 
         foreach($users as $user){
 
-        	DB::table('user_type')->insert(['user_id' => $user->id, 'type_id' => 4]);
+        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 4]);
         }
 
     	//create 10 employees
@@ -50,7 +50,7 @@ class UsersTableSeeder extends Seeder
 
         foreach($users as $user){
 
-        	DB::table('user_type')->insert(['user_id' => $user->id, 'type_id' => 5]);
+        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 5]);
         }
 
     	//create 5 managers
@@ -58,7 +58,7 @@ class UsersTableSeeder extends Seeder
 
         foreach($users as $user){
 
-        	DB::table('user_type')->insert(['user_id' => $user->id, 'type_id' => 6]);
+        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 6]);
         }
 
         //get users

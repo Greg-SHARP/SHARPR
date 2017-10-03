@@ -26,7 +26,7 @@ class CourseController extends Controller
     }
     public function getCourses(){
 
-    	$courses = Course::all();
+    	$courses = Course::with('instructor', 'categories')->get();
 
     	$response = [
     		'courses' => $courses

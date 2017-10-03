@@ -20,7 +20,7 @@ class CourseCategoryTableSeeder extends Seeder
 
     		$category = Category::inRandomOrder()->where('parent', NULL)->first();
 
-    		DB::table('course_category')
+    		DB::table('category_course')
     			->insert(['course_id' => $course->id, 'category_id' => $category->id]);
         }
     }

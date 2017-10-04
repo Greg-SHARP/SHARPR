@@ -6,13 +6,8 @@ use App\Instructor;
 
 $factory->define(Course::class, function (Faker $faker) {
     return [
-    	'name' => $faker->word,
-    	'instructor_id' => Instructor::inRandomOrder()->first(),
-    	'address' => $faker->streetAddress,
-    	'city' => $faker->city,
-    	'state' => $faker->state,
-    	'zip' => $faker->postcode,
-    	'amount' => $faker->randomFloat(2, 50, 500),
-    	'availability' => $faker->word
+    	'instructor' => Instructor::inRandomOrder()->first()->user_id,
+        'title' => $faker->word,
+        'description' => $faker->paragraph()
     ];
 });

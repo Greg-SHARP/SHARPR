@@ -31,6 +31,13 @@ Route::get('/course/{id}', ['uses' => 'CourseController@getCourse' ]);
 Route::put('/course/{id}', ['uses' => 'CourseController@putCourse']);
 Route::delete('/course/{id}', ['uses' => 'CourseController@deleteCourse']);
 
+//Semester
+Route::post('/semester', ['uses' => 'SemesterController@postSemester']);
+Route::get('/semesters', ['uses' => 'SemesterController@getSemesters' ]);
+Route::get('/semester/{id}', ['uses' => 'SemesterController@getSemester' ]);
+Route::put('/semester/{id}', ['uses' => 'SemesterController@putSemester']);
+Route::delete('/semester/{id}', ['uses' => 'SemesterController@deleteSemester']);
+
 //Certificate
 Route::post('/certificate', ['uses' => 'CertificateController@postCertificate']);
 Route::get('/certificates', ['uses' => 'CertificateController@getCertificates' ]);

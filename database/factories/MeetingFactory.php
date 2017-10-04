@@ -18,7 +18,7 @@ $factory->define(Meeting::class, function (Faker $faker) {
 	}
 
     return [
-        'course_id' => NULL,
+        'semester_id' => NULL,
         'start' => $faker->dateTime(),
         'end' => $faker->dateTime(),
         'substitute' => $substitute

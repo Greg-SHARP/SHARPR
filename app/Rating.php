@@ -4,17 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+class Rating extends Model
 {
 	protected $hidden = [
 		'pivot', 'created_at', 'updated_at'
 	];
 
     /**
-     * The courses that belong to the tag
+     * The course associated with the rating
      */
-    public function courses()
+    public function course()
     {
-        return $this->belongsToMany('App\Course');
+        return $this->hasOne('App\Course');
     }
 }

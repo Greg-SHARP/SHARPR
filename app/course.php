@@ -6,14 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-	protected $hidden = ['pivot'];
+	protected $hidden = [
+		'pivot', 'created_at', 'updated_at'
+	];
 
     /**
-     * Get instructor associated with the course
+     * The instructor associated with the course
      */
     public function instructor()
     {
-        return $this->hasOne('App\Instructor', 'user_id', 'instructor_id');
+        return $this->hasOne('App\User', 'id', 'instructor');
+    }
+
+    /**
+     * The semesters that belong to the course
+     */
+    public function semesters()
+    {
+        return $this->hasMany('App\Semester');
     }
 
 	/**
@@ -22,5 +32,21 @@ class Course extends Model
     public function categories()
     {
         return $this->belongsToMany('App\Category');
+    }
+
+    /**
+     * The tags that belong to the course
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
+
+    /**
+     * The ratings that belong to the course
+     */
+    public function ratings()
+    {
+        return $this->hasMany('App\Rating');
     }
 }

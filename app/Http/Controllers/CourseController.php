@@ -26,7 +26,13 @@ class CourseController extends Controller
     }
     public function getCourses(){
 
-    	$courses = Course::with('instructor', 'categories')->get();
+
+        $courses = Course::whereHas('semesters', function ($query){
+
+            $query->where('availability', 'open');
+        })
+        ->with('instructor', 'categories', 'tags', 'semesters')
+        ->get();
 
     	$response = [
     		'courses' => $courses

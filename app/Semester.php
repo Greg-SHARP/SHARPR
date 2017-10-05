@@ -10,6 +10,34 @@ class Semester extends Model
 		'pivot', 'created_at', 'updated_at'
 	];
 
+    protected $appends = [
+        'duration', 'start_date', 'end_date'
+    ];
+
+    /**
+     * The duration of the semester
+     */
+    public function getDurationAttribute()
+    {
+        return $this->meetings->count();
+    }
+
+    /**
+     * The start date of the semester
+     */
+    public function getStartDateAttribute()
+    {
+        return $this->meetings->first()->start;
+    }
+
+    /**
+     * The end date of the semester
+     */
+    public function getEndDateAttribute()
+    {
+        return $this->meetings->last()->end;
+    }
+
     /**
      * The course that belong to the semester
      */

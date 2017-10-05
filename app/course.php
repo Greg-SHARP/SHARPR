@@ -10,6 +10,10 @@ class Course extends Model
 		'pivot', 'created_at', 'updated_at'
 	];
 
+    protected $appends = [
+        'rating'
+    ];
+
     /**
      * The instructor associated with the course
      */
@@ -48,5 +52,13 @@ class Course extends Model
     public function ratings()
     {
         return $this->hasMany('App\Rating');
+    }
+
+    /**
+     * The rating of the course
+     */
+    public function getRatingAttribute()
+    {
+        return $this->ratings()->avg('rating');
     }
 }

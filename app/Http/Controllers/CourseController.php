@@ -26,13 +26,13 @@ class CourseController extends Controller
     }
     public function getCourses(){
 
-
         $courses = Course::whereHas('semesters', function ($query){
 
             $query->where('availability', 'open');
         })
-        ->with('instructor', 'categories', 'tags', 'semesters')
-        ->get();
+            ->with('instructor', 'categories', 'tags', 'semesters')
+            ->with('semesters.meetings')
+            ->get();
 
     	$response = [
     		'courses' => $courses
@@ -42,7 +42,14 @@ class CourseController extends Controller
     }
     public function getCourse($id){
 
-    	$course = Course::find($id);
+        $course = Course::whereHas('semesters', function ($query){
+
+            $query->where('availability', 'open');
+        })
+            ->with('instructor', 'categories', 'tags', 'semesters')
+            ->with('semesters.meetings')
+            ->find($id);
+
 
     	if(!$course){
 

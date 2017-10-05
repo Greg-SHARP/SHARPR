@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rating extends Model
 {
 	protected $hidden = [
-		'pivot', 'created_at', 'updated_at'
+		'course_id', 'user_id', 'pivot', 'created_at', 'updated_at'
 	];
 
     /**

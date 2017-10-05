@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Semester extends Model
 {
 	protected $hidden = [
-		'pivot', 'created_at', 'updated_at'
+		'course_id', 'pivot', 'created_at', 'updated_at'
 	];
 
     protected $appends = [

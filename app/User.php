@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token', 'created_at', 'updated_at'
     ];
+
+    /**
+     * The instructor associated with the user
+     */
+    public function instructor()
+    {
+        return $this->hasOne('App\Instructor');
+    }
 }

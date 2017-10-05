@@ -30,9 +30,10 @@ class CourseController extends Controller
 
             $query->where('availability', 'open');
         })
-            ->with('instructor', 'categories', 'tags', 'semesters')
-            ->with('semesters.meetings')
-            ->get();
+        ->with('instructor:id,name,email')
+        ->with('semesters:id,course_id,address,city,state,zip,amount,availability,primary_img')
+        ->with('categories', 'tags')
+        ->get();
 
     	$response = [
     		'courses' => $courses
@@ -46,9 +47,10 @@ class CourseController extends Controller
 
             $query->where('availability', 'open');
         })
-            ->with('instructor', 'categories', 'tags', 'semesters')
-            ->with('semesters.meetings')
-            ->find($id);
+        ->with('instructor:id,name,email')
+        ->with('categories', 'tags', 'semesters', 'ratings')
+        ->with('semesters.meetings')
+        ->find($id);
 
 
     	if(!$course){

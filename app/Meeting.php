@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Meeting extends Model
 {
 	protected $hidden = [
-		'pivot', 'created_at', 'updated_at'
+		'semester_id', 'pivot', 'created_at', 'updated_at'
 	];
 
     /**

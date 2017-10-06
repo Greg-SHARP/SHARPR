@@ -26,7 +26,11 @@ class CoursesTableSeeder extends Seeder
             //create 0 to 10 ratings for each course
             $rand = rand(1, 10);
 
+<<<<<<< HEAD
             factory(Rating::class, $rand)->create(['rateable_id' => $course->id, 'rateable_type' => 'courses']);
+=======
+            factory(Rating::class, $rand)->create(['rateable_id' => $course->id, 'rateable_type' => 'App\Course']);
+>>>>>>> 2005cb724b6f1482663cf2257148aafbde8b8041
 
             //create 1 to 10 random meetings for each course
             foreach($semesters as $semester){

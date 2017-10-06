@@ -15,4 +15,12 @@ class Instructor extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Get all of the instructor's ratings
+     */
+    public function ratings()
+    {
+        return $this->morphMany('App\Rating', 'rateable');
+    }
 }

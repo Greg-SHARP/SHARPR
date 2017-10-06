@@ -20,16 +20,12 @@ $factory->define(User::class, function (Faker $faker) {
     //create status array
     $status = ['active', 'inactive', 'blocked'];
 
-    //create details
-    $details = json_encode(['bio' => $faker->text(500), 'photo' => $faker->word . '.jpg']);
-
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'status' => $faker->randomElement($status),
-        'verified' => rand(0, 1),
-        'details' => $details
+        'verified' => rand(0, 1)
     ];
 });

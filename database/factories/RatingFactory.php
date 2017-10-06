@@ -7,9 +7,10 @@ use App\Instructor;
 $factory->define(Rating::class, function (Faker $faker) {
 
     return [
-        'course_id' => NULL,
         'user_id' => Instructor::inRandomOrder()->first()->user_id,
         'rating' => $faker->numberBetween(1, 5),
-        'comment' => $faker->paragraph()
+        'comment' => $faker->paragraph(),
+        'rateable_id' => NULL,
+        'rateable_type' => NULL
     ];
 });

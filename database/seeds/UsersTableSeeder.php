@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\User;
 use App\Instructor;
 use App\Student;
+use App\Rating;
 
 class UsersTableSeeder extends Seeder
 {
@@ -26,6 +27,11 @@ class UsersTableSeeder extends Seeder
 
         	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 2]);
         	factory(Instructor::class)->create([ 'user_id' => $user->id ]);
+
+            //create 0 to 10 ratings for each instructor
+            $rand = rand(1, 10);
+
+            factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'App\Instructor']);
         }
 
     	//create 50 students
@@ -35,6 +41,11 @@ class UsersTableSeeder extends Seeder
 
         	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 3]);
         	factory(Student::class)->create([ 'user_id' => $user->id ]);
+
+            //create 0 to 10 ratings for each student
+            $rand = rand(1, 10);
+
+            factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'App\Student']);
         }
 
     	//create 10 institutions

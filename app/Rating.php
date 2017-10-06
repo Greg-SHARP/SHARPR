@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Rating extends Model
 {
 	protected $hidden = [
-		'course_id', 'user_id', 'pivot', 'created_at', 'updated_at'
+		'rateable_id', 'rateable_type', 'pivot', 'created_at', 'updated_at'
 	];
 
     /**
-     * The course associated with the rating
+     * Get all of the owning rateable models
      */
-    public function course()
+    public function rateable()
     {
-        return $this->hasOne('App\Course');
+        return $this->morphTo();
     }
 }

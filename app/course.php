@@ -47,11 +47,11 @@ class Course extends Model
     }
 
     /**
-     * The ratings that belong to the course
+     * Get all of the instructor's ratings
      */
     public function ratings()
     {
-        return $this->hasMany('App\Rating');
+        return $this->morphMany('App\Rating', 'rateable');
     }
 
     /**

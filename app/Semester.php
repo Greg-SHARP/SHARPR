@@ -41,9 +41,9 @@ class Semester extends Model
     /**
      * The course that belong to the semester
      */
-    public function courses()
+    public function course()
     {
-        return $this->hasOne('App\Semester');
+        return $this->belongsTo('App\Course');
     }
 
     /**

@@ -19,7 +19,10 @@ class MeetingController extends Controller
     }
     public function getMeetings(){
 
-    	$meetings = Meeting::all();
+    	$meetings = Meeting::with('semester')
+            ->with('semester.course')
+            ->with('semester.course.instructor:id,name,email')
+            ->get();
 
     	$response = [
     		'meetings' => $meetings
@@ -29,7 +32,10 @@ class MeetingController extends Controller
     }
     public function getMeeting($id){
 
-    	$meeting = Meeting::find($id);
+    	$meeting = Meeting::with('semester')
+            ->with('semester.course')
+            ->with('semester.course.instructor:id,name,email')
+            ->find($id);
 
     	if(!$meeting){
 

@@ -15,6 +15,6 @@ class Meeting extends Model
      */
     public function semester()
     {
-        return $this->hasOne('App\Semester');
+        return $this->belongsTo('App\Semester');
     }
 }

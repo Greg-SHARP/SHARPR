@@ -17,10 +17,6 @@ $factory->define(Semester::class, function (Faker $faker) {
 
     return [
     	'course_id' => NULL,
-    	'address' => $faker->streetAddress,
-    	'city' => $faker->city,
-    	'state' => $faker->state,
-    	'zip' => $faker->postcode,
     	'amount' => $faker->randomFloat(2, 50, 500),
     	'availability' => $faker->randomElement($status),
     	'primary_img' => $faker->word . '.jpg',

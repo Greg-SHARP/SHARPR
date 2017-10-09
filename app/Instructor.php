@@ -9,7 +9,7 @@ class Instructor extends Model
 	protected $hidden = ['created_at', 'updated_at'];
 
 	/**
-     * Get the user that is instructor
+     * Get the user that belongs to instructor
      */
     public function user()
     {
@@ -22,5 +22,13 @@ class Instructor extends Model
     public function ratings()
     {
         return $this->morphMany('App\Rating', 'rateable');
+    }
+
+    /**
+     * Get all of the instructor's addresses
+     */
+    public function addresses()
+    {
+        return $this->morphMany('App\Address', 'addressable', NULL, 'addressable_id', 'user_id');
     }
 }

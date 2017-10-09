@@ -16,10 +16,6 @@ class CreateSemestersTable extends Migration
         Schema::create('semesters', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('course_id')->unsigned()->references('id')->on('courses');
-            $table->string('address');
-            $table->string('city');
-            $table->string('state');
-            $table->string('zip');
             $table->decimal('amount', 5, 2);
             $table->string('availability');
             $table->string('primary_img');

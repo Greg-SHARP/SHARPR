@@ -13,10 +13,6 @@ class CourseController extends Controller
 
     	$course->name          = $request->input('name');
     	$course->instructor_id = $request->input('instructor_id');
-    	$course->address       = $request->input('address');
-    	$course->city          = $request->input('city');
-    	$course->state         = $request->input('state');
-    	$course->zip           = $request->input('zip');
     	$course->amount        = $request->input('amount');
     	$course->availability  = $request->input('availability');
 
@@ -31,7 +27,8 @@ class CourseController extends Controller
             $query->where('availability', 'open');
         })
         ->with('instructor:id,name,email')
-        ->with('semesters:id,course_id,address,city,state,zip,amount,availability,primary_img')
+        ->with('semesters:id,course_id,amount,availability,primary_img')
+        ->with('semesters.addresses')
         ->with('categories', 'tags')
         ->get();
 
@@ -48,7 +45,7 @@ class CourseController extends Controller
             $query->where('availability', 'open');
         })
         ->with('instructor:id,name,email')
-        ->with('categories', 'tags', 'semesters', 'ratings')
+        ->with('categories', 'tags', 'semesters', 'semesters.addresses', 'ratings')
         ->with('semesters.meetings')
         ->find($id);
 

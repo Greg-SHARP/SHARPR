@@ -34,4 +34,12 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Instructor');
     }
+
+    /**
+     * The student associated with the user
+     */
+    public function student()
+    {
+        return $this->hasOne('App\Student');
+    }
 }

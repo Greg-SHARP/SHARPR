@@ -20,7 +20,9 @@ class StudentController extends Controller
     }
     public function getStudents(){
 
-    	$students = Student::all();
+    	$students = Student::with('addresses')
+            ->with('user:id,email,dob,status,verified,referred_by')
+            ->get();
 
     	$response = [
     		'students' => $students
@@ -30,7 +32,9 @@ class StudentController extends Controller
     }
     public function getStudent($id){
 
-    	$student = Student::find($id);
+    	$student = Student::with('addresses')
+            ->with('user:id,email,dob,status,verified,referred_by')
+            ->find($id);
 
     	return response()->json(['student' => $student ], 200);
     }

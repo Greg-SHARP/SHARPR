@@ -19,5 +19,6 @@ class TypesTableSeeder extends Seeder
         Type::create(['label' => 'institution']); 
         Type::create(['label' => 'employee']); 
         Type::create(['label' => 'manager']);
+        Type::create(['label' => 'parent']);
     }
 }

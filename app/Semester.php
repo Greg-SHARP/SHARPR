@@ -53,4 +53,12 @@ class Semester extends Model
     {
         return $this->hasMany('App\Meeting');
     }
+
+    /**
+     * Get all of the semester's addresses
+     */
+    public function addresses()
+    {
+        return $this->morphMany('App\Address', 'addressable');
+    }
 }

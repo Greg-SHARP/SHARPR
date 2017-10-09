@@ -26,7 +26,7 @@ class SemesterController extends Controller
     }
     public function getSemesters(){
 
-    	$semesters = Semester::with('course', 'course.instructor:id,name,email')
+    	$semesters = Semester::with('course', 'course.instructor:id,name,email', 'addresses')
             ->get();
 
     	$response = [
@@ -37,7 +37,7 @@ class SemesterController extends Controller
     }
     public function getSemester($id){
 
-    	$semester = Semester::with('course', 'course.instructor:id,name,email')
+    	$semester = Semester::with('course', 'course.instructor:id,name,email', 'addresses')
             ->find($id);
 
     	if(!$semester){

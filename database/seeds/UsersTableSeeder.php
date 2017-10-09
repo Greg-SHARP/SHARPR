@@ -5,6 +5,7 @@ use App\User;
 use App\Instructor;
 use App\Student;
 use App\Rating;
+use App\Address;
 
 class UsersTableSeeder extends Seeder
 {
@@ -32,10 +33,29 @@ class UsersTableSeeder extends Seeder
             $rand = rand(1, 10);
 
             factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'instructors']);
+
+            //create 1 to 2 addresses
+            $rand = rand(0, 1);
+
+            //create address
+            factory(Address::class)->create([
+                'addressable_id' => $user->id, 
+                'addressable_type' => 'instructors']);
+
+            if($rand){
+
+                //create work address
+                factory(Address::class)->create([
+                    'addressable_id' => $user->id, 
+                    'addressable_type' => 'instructors',
+                    'type' => 'work']);
+            }
+
+            factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'instructors']);
         }
 
     	//create 50 students
-        $users = factory(User::class, 10)->create();
+        $users = factory(User::class, 50)->create();
 
         foreach($users as $user){
 
@@ -46,6 +66,23 @@ class UsersTableSeeder extends Seeder
             $rand = rand(1, 10);
             
             factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'students']);
+
+            //create 1 to 2 addresses
+            $rand = rand(0, 1);
+
+            //create address
+            factory(Address::class)->create([
+                'addressable_id' => $user->id, 
+                'addressable_type' => 'students']);
+
+            if($rand){
+
+                //create secondary address
+                factory(Address::class)->create([
+                    'addressable_id' => $user->id, 
+                    'addressable_type' => 'students',
+                    'type' => 'secondary']);
+            }
         }
 
     	//create 10 institutions

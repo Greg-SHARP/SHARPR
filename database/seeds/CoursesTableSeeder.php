@@ -5,6 +5,7 @@ use App\Course;
 use App\Meeting;
 use App\Semester;
 use App\Rating;
+use App\Address;
 
 class CoursesTableSeeder extends Seeder
 {
@@ -34,6 +35,11 @@ class CoursesTableSeeder extends Seeder
                 $rand = rand(1, 10);
 
                 factory(Meeting::class, $rand)->create(['semester_id' => $semester->id]);
+
+                //create address
+                factory(Address::class)->create([
+                    'addressable_id' => $semester->id, 
+                    'addressable_type' => 'semesters']);
             }
         }
     }

@@ -20,7 +20,9 @@ class InstructorController extends Controller
     }
     public function getInstructors(){
 
-    	$instructors = Instructor::all();
+    	$instructors = Instructor::with('addresses')
+            ->with('user:id,email,dob,status,verified,referred_by')
+            ->get();
 
     	$response = [
     		'instructors' => $instructors
@@ -30,7 +32,9 @@ class InstructorController extends Controller
     }
     public function getInstructor($id){
 
-    	$instructor = Instructor::find($id);
+    	$instructor = Instructor::with('addresses')
+            ->with('user:id,email,dob,status,verified,referred_by')
+            ->find($id);
 
     	if(!$instructor){
 

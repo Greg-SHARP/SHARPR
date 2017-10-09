@@ -17,6 +17,7 @@ $factory->define(Student::class, function (Faker $faker) {
 
     return [
     	'user_id' => NULL,
+    	'phone' => $faker->unique()->tollFreePhoneNumber,
         'details' => json_encode($details)
     ];
 });

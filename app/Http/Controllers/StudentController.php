@@ -24,6 +24,19 @@ class StudentController extends Controller
             ->with('user:id,email,dob,status,verified,referred_by')
             ->get();
 
+        $students->map(function($i){
+
+            $i->email       = $i->user->email;
+            $i->dob         = $i->user->dob;
+            $i->status      = $i->user->status;
+            $i->verified    = $i->user->verified;
+            $i->referred_by = $i->user->referred_by;
+
+            unset($i->user);
+
+            return $i;
+        });
+
     	$response = [
     		'students' => $students
     	];
@@ -36,7 +49,20 @@ class StudentController extends Controller
             ->with('user:id,email,dob,status,verified,referred_by')
             ->find($id);
 
-    	return response()->json(['student' => $student ], 200);
+        if(!$student){
+
+            return response()->json(['message' => 'Student not found'], 404);
+        }
+
+        $student->email       = $student->user->email;
+        $student->dob         = $student->user->dob;
+        $student->status      = $student->user->status;
+        $student->verified    = $student->user->verified;
+        $student->referred_by = $student->user->referred_by;
+
+        unset($student->user);
+
+        return response()->json($student, 200);
     }
     public function putStudent(Request $request, $id){
 

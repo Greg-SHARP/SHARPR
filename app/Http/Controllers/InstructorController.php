@@ -24,6 +24,19 @@ class InstructorController extends Controller
             ->with('user:id,email,dob,status,verified,referred_by')
             ->get();
 
+        $instructors->map(function($i){
+
+            $i->email       = $i->user->email;
+            $i->dob         = $i->user->dob;
+            $i->status      = $i->user->status;
+            $i->verified    = $i->user->verified;
+            $i->referred_by = $i->user->referred_by;
+
+            unset($i->user);
+
+            return $i;
+        });
+
     	$response = [
     		'instructors' => $instructors
     	];
@@ -36,10 +49,18 @@ class InstructorController extends Controller
             ->with('user:id,email,dob,status,verified,referred_by')
             ->find($id);
 
-    	if(!$instructor){
+        if(!$instructor){
 
-    		return response()->json(['message' => 'Instructor not found'], 404);
-    	}
+            return response()->json(['message' => 'Instructor not found'], 404);
+        }
+
+        $instructor->email       = $instructor->user->email;
+        $instructor->dob         = $instructor->user->dob;
+        $instructor->status      = $instructor->user->status;
+        $instructor->verified    = $instructor->user->verified;
+        $instructor->referred_by = $instructor->user->referred_by;
+
+        unset($instructor->user);
 
     	return response()->json($instructor, 200);
     }

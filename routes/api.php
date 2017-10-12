@@ -74,11 +74,11 @@ Route::put('/tag/{id}', ['uses' => 'TagController@putTag']);
 Route::delete('/tag/{id}', ['uses' => 'TagController@deleteTag']);
 
 //Type
-Route::post('/type', ['uses' => 'TypeController@postType']);
-Route::get('/types', ['uses' => 'TypeController@getTypes']);
-Route::get('/type/{id}', ['uses' => 'TypeController@getType']);
-Route::put('/type/{id}', ['uses' => 'TypeController@putType']);
-Route::delete('/type/{id}', ['uses' => 'TypeController@deleteType']);
+Route::post('/role', ['uses' => 'RoleController@postRole']);
+Route::get('/roles', ['uses' => 'RoleController@getRoles']);
+Route::get('/role/{id}', ['uses' => 'RoleController@getRole']);
+Route::put('/role/{id}', ['uses' => 'RoleController@putRole']);
+Route::delete('/role/{id}', ['uses' => 'RoleController@deleteRole']);
 
 //User
 Route::post('/user', ['uses' => 'UserController@postUser']);

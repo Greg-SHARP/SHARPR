@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTypeUserTable extends Migration
+class CreateCourseUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateTypeUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('type_user', function (Blueprint $table) {
+        Schema::create('course_user', function (Blueprint $table) {
+            $table->integer('course_id')->unsigned()->references('id')->on('courses');
             $table->integer('user_id')->unsigned()->references('id')->on('users');
-            $table->integer('type_id')->unsigned()->references('id')->on('types');
         });
     }
 
@@ -26,6 +26,6 @@ class CreateTypeUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_user');
+        Schema::dropIfExists('course_user');
     }
 }

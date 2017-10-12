@@ -19,14 +19,14 @@ class UsersTableSeeder extends Seeder
     	//create 1 admin
         $id = factory(User::class)->create()->id;
 
-        DB::table('type_user')->insert(['user_id' => $id, 'type_id' => 1]);
+        DB::table('role_user')->insert(['user_id' => $id, 'role_id' => 1]);
 
     	//create 10 instructors
         $users = factory(User::class, 10)->create();
 
         foreach($users as $user){
 
-        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 2]);
+        	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 2]);
         	factory(Instructor::class)->create([ 'user_id' => $user->id ]);
 
             //create 0 to 10 ratings for each instructor
@@ -59,7 +59,7 @@ class UsersTableSeeder extends Seeder
 
         foreach($users as $user){
 
-        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 3]);
+        	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 3]);
         	factory(Student::class)->create([ 'user_id' => $user->id ]);
 
             //create 0 to 10 ratings for each student
@@ -90,7 +90,7 @@ class UsersTableSeeder extends Seeder
 
         foreach($users as $user){
 
-        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 4]);
+        	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 4]);
         }
 
     	//create 10 employees
@@ -98,7 +98,7 @@ class UsersTableSeeder extends Seeder
 
         foreach($users as $user){
 
-        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 5]);
+        	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 5]);
         }
 
     	//create 5 managers
@@ -106,7 +106,7 @@ class UsersTableSeeder extends Seeder
 
         foreach($users as $user){
 
-        	DB::table('type_user')->insert(['user_id' => $user->id, 'type_id' => 6]);
+        	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 6]);
         }
 
         //get users

@@ -22,6 +22,7 @@ class StudentController extends Controller
 
     	$students = Student::with('addresses')
             ->with('user:id,email,dob,status,verified,referred_by')
+            ->with('courses')
             ->get();
 
         $students->map(function($i){
@@ -47,6 +48,7 @@ class StudentController extends Controller
 
     	$student = Student::with('addresses')
             ->with('user:id,email,dob,status,verified,referred_by')
+            ->with('courses')
             ->find($id);
 
         if(!$student){

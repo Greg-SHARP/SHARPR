@@ -61,4 +61,12 @@ class Course extends Model
     {
         return $this->ratings()->avg('rating');
     }
+
+    /**
+     * The students that belong to the course
+     */
+    public function students()
+    {
+        return $this->belongsToMany('App\Course', 'course_user', 'course_id', 'user_id');
+    }
 }

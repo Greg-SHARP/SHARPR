@@ -31,4 +31,12 @@ class Student extends Model
     {
         return $this->morphMany('App\Address', 'addressable', NULL, 'addressable_id', 'user_id');
     }
+
+    /**
+     * The courses that belong to the student
+     */
+    public function courses()
+    {
+        return $this->belongsToMany('App\Course', 'course_user', 'course_id', 'user_id');
+    }
 }

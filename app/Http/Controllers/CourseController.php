@@ -26,6 +26,7 @@ class CourseController extends Controller
 
             $query->where('availability', 'open');
         })
+        ->with('group')
         ->with('instructor:id,name,email')
         ->with('semesters:id,course_id,amount,availability,primary_img')
         ->with('semesters.addresses')
@@ -44,6 +45,7 @@ class CourseController extends Controller
 
             $query->where('availability', 'open');
         })
+        ->with('group')
         ->with('instructor:id,name,email')
         ->with('categories', 'tags', 'semesters', 'semesters.addresses', 'ratings')
         ->with('semesters.meetings')

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
 	protected $hidden = [
-		'pivot', 'created_at', 'updated_at'
+		'pivot', 'created_at', 'updated_at', 'group_id'
 	];
 
     protected $appends = [
@@ -20,6 +20,14 @@ class Course extends Model
     public function instructor()
     {
         return $this->hasOne('App\User', 'id', 'instructor');
+    }
+
+    /**
+     * The group to course belongs to
+     */
+    public function group()
+    {
+        return $this->belongsTo('App\Group');
     }
 
     /**

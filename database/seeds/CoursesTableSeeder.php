@@ -16,8 +16,21 @@ class CoursesTableSeeder extends Seeder
      */
     public function run()
     {
-    	//create 40 courses
-        $courses = factory(Course::class, 100)->create();
+        $i = 0;
+
+        //create 100 courses
+        while($i < 100){
+
+            //create group_id
+            $group_id = rand(1, 3);
+
+            factory(Course::class)->create(['group_id' => $group_id]);
+
+            $i++;
+        }
+
+        //get all courses
+        $courses = Course::all();
 
         //create 1 semester for each course
         foreach($courses as $course){

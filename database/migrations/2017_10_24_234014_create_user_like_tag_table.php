@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupsTable extends Migration
+class CreateUserLikeTagTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
+        Schema::create('user_like_tag', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('label');
+            $table->integer('user_id')->unsigned()->references('id')->on('users');
+            $table->integer('tag_id')->unsigned()->references('id')->on('tags');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('user_like_tag');
     }
 }

@@ -13,8 +13,8 @@ class GroupsTableSeeder extends Seeder
     public function run()
     {
         //create roles
-        Group::create(['name' => 'For Fun']);
-        Group::create(['name' => 'For Work']); 
-        Group::create(['name' => 'For Kids']);
+        Group::create(['label' => 'For Fun']);
+        Group::create(['label' => 'For Work']); 
+        Group::create(['label' => 'For Kids']);
     }
 }

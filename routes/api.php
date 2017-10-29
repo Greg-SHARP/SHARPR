@@ -82,5 +82,6 @@ Route::delete('/role/{id}', ['uses' => 'RoleController@deleteRole']);
 
 //User
 Route::post('/user', ['uses' => 'UserController@signup']);
+Route::post('/user/sign', ['uses' => 'UserController@signin']);
 Route::get('/users', ['uses' => 'UserController@getUsers']);
 Route::get('/user/{id}', ['uses' => 'UserController@getUser']);

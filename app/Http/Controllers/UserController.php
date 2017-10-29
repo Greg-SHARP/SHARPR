@@ -7,16 +7,25 @@ use App\User;
 
 class UserController extends Controller
 {
-    public function postUser(Request $request){
+    public function signup(Request $request){
 
-    	$user = new User();
-    	
-    	$user->user_id = $request->input('user_id');
-    	$user->details = $request->input('details');
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required'
+        ]);
 
-    	$user->save();
+        $user = new User([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password'))
+        ]);
 
-    	return response()->json(['user' => $user], 201);
+        $user->save();
+
+        return response()->json([
+            'message' => 'Successfully created user!'
+        ], 201);
     }
     public function getUsers(){
 
@@ -38,29 +47,5 @@ class UserController extends Controller
     	}
 
     	return response()->json($user, 200);
-    }
-    public function putUser(Request $request, $id){
-
-    	$user = User::find($id);
-
-    	if(!$user){
-
-    		return response()->json(['message' => 'User not found'], 404);
-    	}
-    	
-    	$user->user_id = $request->input('user_id');
-    	$user->details = $request->input('details');
-
-    	$user->save();
-
-    	return response()->json(['user' => $user], 200);
-    }
-    public function deleteUser($id){
-
-    	$user = User::find($id);
-
-    	$user->delete();
-
-    	return response()->json(['message' => 'User deleted'], 200);
     }
 }

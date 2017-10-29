@@ -19,9 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
-            $table->dateTime('dob');
-            $table->enum('status', ['inactive', 'active', 'blocked']);
-            $table->boolean('verified');
+            $table->dateTime('dob')->nullable();
+            $table->enum('status', ['inactive', 'active', 'blocked'])->default('inactive');
+            $table->boolean('verified')->default(0);
             $table->integer('referred_by')->unsigned()->nullable()->references('id')->on('users');
             $table->timestamps();
         });

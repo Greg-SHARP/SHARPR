@@ -81,8 +81,6 @@ Route::put('/role/{id}', ['uses' => 'RoleController@putRole']);
 Route::delete('/role/{id}', ['uses' => 'RoleController@deleteRole']);
 
 //User
-Route::post('/user', ['uses' => 'UserController@postUser']);
+Route::post('/user', ['uses' => 'UserController@signup']);
 Route::get('/users', ['uses' => 'UserController@getUsers']);
 Route::get('/user/{id}', ['uses' => 'UserController@getUser']);
-Route::put('/user/{id}', ['uses' => 'UserController@putUser']);
-Route::delete('/user/{id}', ['uses' => 'UserController@deleteUser']);

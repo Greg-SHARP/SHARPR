@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Course;
 use App\Like;
 use App\Dislike;
+use App\User;
 
 class LikesTableSeeder extends Seeder
 {
@@ -24,7 +25,7 @@ class LikesTableSeeder extends Seeder
         	if($rand){
 
         		//get random courses
-        		$courses = Course::inRandomOrder($rand)->with('categories', 'tags')->get();
+        		$courses = Course::inRandomOrder()->take($rand)->with('categories', 'tags')->get();
 
         		//for each, like or dislike
         		foreach($courses as $course){

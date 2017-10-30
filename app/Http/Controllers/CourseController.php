@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Course;
+use App\Dislike;
+use App\Like;
+use JWTAuth;
 
 class CourseController extends Controller
 {
@@ -88,5 +91,85 @@ class CourseController extends Controller
     	$course->delete();
 
     	return response()->json(['message' => 'Course deleted'], 200);
+    }
+
+    public function likeCourse($id){
+
+        //get user
+        $user = JWTAuth::parseToken()->authenticate();
+
+        //get course
+        $course = Course::with('categories', 'tags')->find($id);
+
+        //if course found
+        if($course){
+
+            //create new like
+            $like = Like::updateOrCreate([
+                'user_id' => $user->id,
+                'likeable_id' => $course->id,
+                'likeable_type' => 'courses']);
+
+            //save like for each category
+            foreach ($course->categories as $category){
+                $like = Like::updateOrCreate([
+                    'user_id' => $user->id,
+                    'likeable_id' => $category->id,
+                    'likeable_type' => 'categories']);
+            }
+
+            //save like for each tag
+            foreach ($course->tags as $tag){
+                $like = Like::updateOrCreate([
+                    'user_id' => $user->id,
+                    'likeable_id' => $tag->id,
+                    'likeable_type' => 'tags']);
+            }
+
+            return response()->json(['message' => 'Likes saved!'], 201);
+        }
+        else{
+            return response()->json(['message' => 'Error: Course Not Found!'], 404);
+        }
+    }
+
+    public function dislikeCourse($id){
+
+        //get user
+        $user = JWTAuth::parseToken()->authenticate();
+
+        //get course
+        $course = Course::with('categories', 'tags')->find($id);
+
+        //if course found
+        if($course){
+
+            //create new dislike
+            $like = Dislike::updateOrCreate([
+                'user_id' => $user->id,
+                'dislikeable_id' => $course->id,
+                'dislikeable_type' => 'courses']);
+
+            //save dislike for each category
+            foreach ($course->categories as $category){
+                $like = Dislike::updateOrCreate([
+                    'user_id' => $user->id,
+                    'dislikeable_id' => $category->id,
+                    'dislikeable_type' => 'categories']);
+            }
+
+            //save dislike for each tag
+            foreach ($course->tags as $tag){
+                $like = Dislike::updateOrCreate([
+                    'user_id' => $user->id,
+                    'dislikeable_id' => $tag->id,
+                    'dislikeable_type' => 'tags']);
+            }
+
+            return response()->json(['message' => 'Dislikes saved!'], 201);
+        }
+        else{
+            return response()->json(['message' => 'Error: Course Not Found!'], 404);
+        }
     }
 }

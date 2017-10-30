@@ -18,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
             'courses' => 'App\Course',
             'instructors' => 'App\Instructor',
             'students' => 'App\Student',
-            'semesters' => 'App\Semester'
+            'semesters' => 'App\Semester',
+            'categories' => 'App\Category',
+            'tags' => 'App\Tag'
         ]);
     }
 

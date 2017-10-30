@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserDislikeTagTable extends Migration
+class CreateLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateUserDislikeTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_dislike_tag', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->references('id')->on('users');
-            $table->integer('tag_id')->unsigned()->references('id')->on('tags');
+            $table->integer('likeable_id')->unsigned();
+            $table->string('likeable_type');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateUserDislikeTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_dislike_tag');
+        Schema::dropIfExists('likes');
     }
 }

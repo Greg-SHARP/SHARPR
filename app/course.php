@@ -55,11 +55,27 @@ class Course extends Model
     }
 
     /**
-     * Get all of the instructor's ratings
+     * Get all of the course's ratings
      */
     public function ratings()
     {
         return $this->morphMany('App\Rating', 'rateable');
+    }
+
+    /**
+     * Get all of the course's likes
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likeable');
+    }
+
+    /**
+     * Get all of the course's dislikes
+     */
+    public function dislikes()
+    {
+        return $this->morphMany('App\Disike', 'dislikeable');
     }
 
     /**

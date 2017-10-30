@@ -26,8 +26,16 @@ Route::get('/courses', ['uses' => 'CourseController@getCourses' ]);
 Route::get('/course/{id}', ['uses' => 'CourseController@getCourse' ]);
 Route::put('/course/{id}', ['uses' => 'CourseController@putCourse']);
 Route::delete('/course/{id}', ['uses' => 'CourseController@deleteCourse']);
-Route::post('/course/{id}/like', ['uses' => 'CourseController@likeCourse']);
-Route::post('/course/{id}/dislike', ['uses' => 'CourseController@likeCourse']);
+
+Route::post('/course/{id}/like', [
+	'uses' => 'CourseController@likeCourse',
+	'middleware' => 'auth'
+]);
+
+Route::post('/course/{id}/dislike', [
+	'uses' => 'CourseController@dislikeCourse',
+	'middleware' => 'auth'
+]);
 
 //Semester
 Route::post('/semester', ['uses' => 'SemesterController@postSemester']);
@@ -79,7 +87,7 @@ Route::put('/role/{id}', ['uses' => 'RoleController@putRole']);
 Route::delete('/role/{id}', ['uses' => 'RoleController@deleteRole']);
 
 //User
-Route::post('/user', ['uses' => 'UserController@signup']);
-Route::post('/user/signin', ['uses' => 'UserController@signin']);
+Route::post('/user', ['uses' => 'UserController@register']);
+Route::post('/login', ['uses' => 'UserController@login']);
 Route::get('/users', ['uses' => 'UserController@getUsers']);
 Route::get('/user/{id}', ['uses' => 'UserController@getUser']);

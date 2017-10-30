@@ -17,4 +17,20 @@ class Tag extends Model
     {
         return $this->belongsToMany('App\Course');
     }
+
+    /**
+     * Get all of the tag's likes
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likeable');
+    }
+
+    /**
+     * Get all of the tag's dislikes
+     */
+    public function dislikes()
+    {
+        return $this->morphMany('App\Dislike', 'dislikeable');
+    }
 }

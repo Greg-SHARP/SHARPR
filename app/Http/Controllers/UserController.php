@@ -68,9 +68,39 @@ class UserController extends Controller
     	return response()->json($response, 200);
     }
 
-    public function getUser($id){
+    public function getUser(Request $request, $id){
 
     	$user = User::find($id);
+
+        //get likes
+        if($request->input('likes') == true){
+
+            $user->likes();
+
+            $likes = $user->likes->mapToGroups(function($item, $key){
+
+                return [$item['likeable_type'] => $item['likeable_id']];
+            });
+
+            unset($user->likes);
+
+            $user->likes = $likes;
+        }
+
+        //get dislikes
+        if($request->input('dislikes') == true){
+
+            $user->dislikes();
+
+            $dislikes = $user->dislikes->mapToGroups(function($item, $key){
+
+                return [$item['dislikeable_type'] => $item['dislikeable_id']];
+            });
+
+            unset($user->dislikes);
+
+            $user->dislikes = $dislikes;
+        }
 
     	if(!$user){
 

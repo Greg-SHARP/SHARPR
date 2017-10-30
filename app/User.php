@@ -51,6 +51,22 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany('App\Role');
     }
+
+    /**
+     * The likes that belong to the user
+     */
+    public function likes()
+    {
+        return $this->hasMany('App\Like');
+    }
+
+    /**
+     * The dislikes that belong to the user
+     */
+    public function dislikes()
+    {
+        return $this->hasMany('App\Dislike');
+    }
     
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

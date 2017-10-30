@@ -105,14 +105,14 @@ class CourseController extends Controller
         if($course){
 
             //create new like
-            $like = Like::updateOrCreate([
+            Like::updateOrCreate([
                 'user_id' => $user->id,
                 'likeable_id' => $course->id,
                 'likeable_type' => 'courses']);
 
             //save like for each category
             foreach ($course->categories as $category){
-                $like = Like::updateOrCreate([
+                Like::updateOrCreate([
                     'user_id' => $user->id,
                     'likeable_id' => $category->id,
                     'likeable_type' => 'categories']);
@@ -120,7 +120,7 @@ class CourseController extends Controller
 
             //save like for each tag
             foreach ($course->tags as $tag){
-                $like = Like::updateOrCreate([
+                Like::updateOrCreate([
                     'user_id' => $user->id,
                     'likeable_id' => $tag->id,
                     'likeable_type' => 'tags']);
@@ -145,14 +145,14 @@ class CourseController extends Controller
         if($course){
 
             //create new dislike
-            $like = Dislike::updateOrCreate([
+            Dislike::updateOrCreate([
                 'user_id' => $user->id,
                 'dislikeable_id' => $course->id,
                 'dislikeable_type' => 'courses']);
 
             //save dislike for each category
             foreach ($course->categories as $category){
-                $like = Dislike::updateOrCreate([
+                Dislike::updateOrCreate([
                     'user_id' => $user->id,
                     'dislikeable_id' => $category->id,
                     'dislikeable_type' => 'categories']);
@@ -160,7 +160,7 @@ class CourseController extends Controller
 
             //save dislike for each tag
             foreach ($course->tags as $tag){
-                $like = Dislike::updateOrCreate([
+                Dislike::updateOrCreate([
                     'user_id' => $user->id,
                     'dislikeable_id' => $tag->id,
                     'dislikeable_type' => 'tags']);

@@ -38,11 +38,11 @@ class UserController extends Controller
             'password' => 'required'
         ]);
 
-        $crendientals = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');
 
         try{
-            if(!$token = JWTAuth::attempt($crendientals)){
-                return respone()->json([
+            if(!$token = JWTAuth::attempt($credentials)){
+                return response()->json([
                     'error' => 'Invalid Credentials!'
                 ], 401);
             }

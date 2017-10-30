@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 //Category
 Route::post('/category', ['uses' => 'CategoryController@postCategory']);
 Route::get('/categories', ['uses' => 'CategoryController@getCategories' ]);
@@ -30,6 +26,8 @@ Route::get('/courses', ['uses' => 'CourseController@getCourses' ]);
 Route::get('/course/{id}', ['uses' => 'CourseController@getCourse' ]);
 Route::put('/course/{id}', ['uses' => 'CourseController@putCourse']);
 Route::delete('/course/{id}', ['uses' => 'CourseController@deleteCourse']);
+Route::post('/course/{id}/like', ['uses' => 'CourseController@likeCourse']);
+Route::post('/course/{id}/dislike', ['uses' => 'CourseController@likeCourse']);
 
 //Semester
 Route::post('/semester', ['uses' => 'SemesterController@postSemester']);
@@ -82,6 +80,6 @@ Route::delete('/role/{id}', ['uses' => 'RoleController@deleteRole']);
 
 //User
 Route::post('/user', ['uses' => 'UserController@signup']);
-Route::post('/user/sign', ['uses' => 'UserController@signin']);
+Route::post('/user/signin', ['uses' => 'UserController@signin']);
 Route::get('/users', ['uses' => 'UserController@getUsers']);
 Route::get('/user/{id}', ['uses' => 'UserController@getUser']);

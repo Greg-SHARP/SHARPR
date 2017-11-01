@@ -8,6 +8,7 @@ use App\User;
 use App\Dislike;
 use App\Like;
 use JWTAuth;
+use Illuminate\Support\Collection;
 
 class CourseController extends Controller
 {
@@ -26,7 +27,7 @@ class CourseController extends Controller
     }
     public function getCourses(Request $request){
 
-
+        //return only currently open courses
         $courses = Course::whereHas('semesters', function ($query){
 
            $query->where('availability', 'open');
@@ -99,6 +100,61 @@ class CourseController extends Controller
 
                 //exclude liked courses
                 $courses = $courses->whereNotIn('id', $likes);
+            }
+        }
+
+        //check if dislikes array was provided
+        if($request->input('dislikes')){
+
+            //store dislikes
+            $dislikes = $request->input('dislikes');
+
+            //check if array
+            if( (is_array($dislikes)) && (!empty($dislikes)) ){
+
+                //convert to ints
+                $dislikes = array_map('intval', $dislikes);
+
+                $disliked_courses = Course::whereIn('id', $dislikes)
+                ->whereHas('semesters', function ($query){
+
+                   $query->where('availability', 'open');
+                })
+                ->with('categories', 'tags')
+                ->get();
+
+                //create new collections
+                $disliked_cats = new Collection();
+                $disliked_tags = new Collection();
+
+                //merge dislikes
+                foreach($disliked_courses as $course){
+                    $disliked_cats = $disliked_tags->merge($course->categories);
+                    $disliked_tags = $disliked_tags->merge($course->tags);
+                }
+
+                //get ids, remove duplicates
+                $disliked_cats = $disliked_cats->pluck('id')->unique();
+                $disliked_tags = $disliked_tags->pluck('id')->unique();
+
+                //exclude disliked courses
+                $courses = $courses->whereNotIn('id', $dislikes);
+
+                //exclude disliked categories
+                if(!empty($disliked_cats)){
+
+                    $courses = $courses->whereHas('categories', function($query) use ($disliked_cats){
+                        $query->whereNotIn('id', $disliked_cats);
+                    });
+                }
+
+                //exclude disliked tags
+                if(!empty($disliked_tags)){
+
+                    $courses = $courses->whereHas('tags', function($query) use ($disliked_tags){
+                        $query->whereNotIn('id', $disliked_tags);
+                    });
+                }
             }
         }
             

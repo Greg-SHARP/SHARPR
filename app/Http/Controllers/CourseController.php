@@ -84,6 +84,23 @@ class CourseController extends Controller
                 });
             }
         }
+
+        //check if likes array was provided
+        if($request->input('likes')){
+
+            //store likes
+            $likes = $request->input('likes');
+
+            //check if array
+            if( (is_array($likes)) && (!empty($likes)) ){
+
+                //convert to ints
+                $likes = array_map('intval', $likes);
+
+                //exclude liked courses
+                $courses = $courses->whereNotIn('id', $likes);
+            }
+        }
             
         $courses = $courses
         ->with('group')
@@ -229,5 +246,18 @@ class CourseController extends Controller
         else{
             return response()->json(['message' => 'Error: Course Not Found!'], 404);
         }
+    }
+
+    private function checkArray($array){
+
+        foreach($array as $value){
+
+            if(!is_int($value)){
+
+                return false;
+            }
+        }
+
+        return true;
     }
 }

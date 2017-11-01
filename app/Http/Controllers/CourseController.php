@@ -38,6 +38,15 @@ class CourseController extends Controller
             //get user
             $user = JWTAuth::parseToken()->authenticate();
 
+            //get likes
+            $likes = $user->likes->mapToGroups(function($item, $key){
+
+                return [$item['likeable_type'] => $item['likeable_id']];
+            });
+
+            //set to array
+            $likes = $dislikes->toArray();
+
             //get dislikes
             $dislikes = $user->dislikes->mapToGroups(function($item, $key){
 
@@ -46,6 +55,12 @@ class CourseController extends Controller
 
             //set to array
             $dislikes = $dislikes->toArray();
+
+            //exclude liked courses
+            if(!empty($likes['courses'])){
+
+                $courses = $courses->whereNotIn('id', $likes['courses']);
+            }
 
             //exclude disliked courses
             if(!empty($dislikes['courses'])){

@@ -45,7 +45,7 @@ class CourseController extends Controller
             });
 
             //set to array
-            $likes = $dislikes->toArray();
+            $likes = $likes->toArray();
 
             //get dislikes
             $dislikes = $user->dislikes->mapToGroups(function($item, $key){

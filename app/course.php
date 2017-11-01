@@ -93,4 +93,9 @@ class Course extends Model
     {
         return $this->belongsToMany('App\Course', 'course_user', 'course_id', 'user_id');
     }
+
+    public function test(){
+
+        return $this->all();
+    }
 }

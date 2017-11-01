@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Course;
+use App\User;
 use App\Dislike;
 use App\Like;
 use JWTAuth;
@@ -23,12 +24,53 @@ class CourseController extends Controller
 
     	return response()->json(['course' => $course], 201);
     }
-    public function getCourses(){
+    public function getCourses(Request $request){
+
 
         $courses = Course::whereHas('semesters', function ($query){
 
-            $query->where('availability', 'open');
-        })
+           $query->where('availability', 'open');
+        });
+
+        //check if token is provided
+        if($request->input('token')){
+
+            //get user
+            $user = JWTAuth::parseToken()->authenticate();
+
+            //get dislikes
+            $dislikes = $user->dislikes->mapToGroups(function($item, $key){
+
+                return [$item['dislikeable_type'] => $item['dislikeable_id']];
+            });
+
+            //set to array
+            $dislikes = $dislikes->toArray();
+
+            //exclude disliked courses
+            if(!empty($dislikes['courses'])){
+
+                $courses = $courses->whereNotIn('id', $dislikes['courses']);
+            }
+
+            //exclude disliked categories
+            if(!empty($dislikes['categories'])){
+
+                $courses = $courses->whereHas('categories', function($query) use ($dislikes){
+                    $query->whereNotIn('id', $dislikes['categories']);
+                });
+            }
+
+            //exclude disliked tags
+            if(!empty($dislikes['tags'])){
+
+                $courses = $courses->whereHas('tags', function($query) use ($dislikes){
+                    $query->whereNotIn('id', $dislikes['tags']);
+                });
+            }
+        }
+            
+        $courses = $courses
         ->with('group')
         ->with('instructor:id,name,email')
         ->with('semesters:id,course_id,amount,availability,primary_img')
@@ -36,9 +78,10 @@ class CourseController extends Controller
         ->with('categories', 'tags')
         ->get();
 
-    	$response = [
-    		'courses' => $courses
-    	];
+
+        $response = [
+         'courses' => $courses
+        ];
 
     	return response()->json($response, 200);
     }

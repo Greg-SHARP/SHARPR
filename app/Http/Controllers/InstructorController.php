@@ -21,11 +21,13 @@ class InstructorController extends Controller
     public function getInstructors(){
 
     	$instructors = Instructor::with('addresses')
-            ->with('user:id,email,dob,status,verified,referred_by')
+            ->with('user:id,name,email,dob,status,verified,referred_by')
             ->get();
 
         $instructors->map(function($i){
 
+            $i->id          = $i->user->id;
+            $i->name        = $i->user->name;
             $i->email       = $i->user->email;
             $i->dob         = $i->user->dob;
             $i->status      = $i->user->status;
@@ -33,6 +35,7 @@ class InstructorController extends Controller
             $i->referred_by = $i->user->referred_by;
 
             unset($i->user);
+            unset($i->user_id);
 
             return $i;
         });
@@ -45,15 +48,21 @@ class InstructorController extends Controller
     }
     public function getInstructor($id){
 
-    	$instructor = Instructor::with('addresses')
-            ->with('user:id,email,dob,status,verified,referred_by')
-            ->find($id);
+        $instructor = Instructor::whereHas('user', function ($query) use ($id){
+
+            $query->where('id', $id);
+        })
+        ->with('user:id,name,email,dob,status,verified,referred_by')
+        ->with('addresses')
+        ->first();
 
         if(!$instructor){
 
             return response()->json(['message' => 'Instructor not found'], 404);
         }
 
+        $instructor->id          = $instructor->user->id;
+        $instructor->name        = $instructor->user->name;
         $instructor->email       = $instructor->user->email;
         $instructor->dob         = $instructor->user->dob;
         $instructor->status      = $instructor->user->status;
@@ -61,6 +70,7 @@ class InstructorController extends Controller
         $instructor->referred_by = $instructor->user->referred_by;
 
         unset($instructor->user);
+        unset($instructor->user_id);
 
     	return response()->json($instructor, 200);
     }

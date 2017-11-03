@@ -33,6 +33,17 @@ class CourseController extends Controller
            $query->where('availability', 'open');
         });
 
+        //check if group was provided
+        if($request->input('group_id')){
+
+            //store group
+            $group_id = (int) $request->input('group_id');
+
+            $courses = $courses->whereHas('group', function($query) use ($group_id){
+                $query->where('id', $group_id);
+            });
+        }
+
         //check if token is provided
         if($request->input('token')){
 
@@ -164,8 +175,20 @@ class CourseController extends Controller
         ->with('semesters:id,course_id,amount,availability,primary_img')
         ->with('semesters.addresses')
         ->with('categories', 'tags')
-        ->get();
+        ->inRandomOrder();
 
+        //check if limit was provided
+        if($request->input('limit')){
+
+            //store limit
+            $limit = (int) $request->input('limit');
+
+            //if positive
+            if($limit) $courses = $courses->take($limit);
+        }
+
+        //get courses
+        $courses = $courses->get();
 
         $response = [
          'courses' => $courses

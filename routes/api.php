@@ -87,7 +87,7 @@ Route::put('/role/{id}', ['uses' => 'RoleController@putRole']);
 Route::delete('/role/{id}', ['uses' => 'RoleController@deleteRole']);
 
 //User
-Route::post('/user', ['uses' => 'UserController@register']);
+Route::post('/user', ['uses' => 'UserController@signup']);
 Route::post('/login', ['uses' => 'UserController@login']);
 Route::get('/users', ['uses' => 'UserController@getUsers']);
 Route::get('/user/{id}', ['uses' => 'UserController@getUser']);

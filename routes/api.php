@@ -24,7 +24,6 @@ Route::delete('/category/{id}', ['uses' => 'CategoryController@deleteCourse']);
 Route::post('/course', ['uses' => 'CourseController@postCourse']);
 
 Route::get('/courses', [
-    'middleware' => 'auth',
 	'uses' => 'CourseController@getCourses'
 ]);
 
@@ -33,13 +32,11 @@ Route::put('/course/{id}', ['uses' => 'CourseController@putCourse']);
 Route::delete('/course/{id}', ['uses' => 'CourseController@deleteCourse']);
 
 Route::post('/course/{id}/like', [
-	'uses' => 'CourseController@likeCourse',
-	'middleware' => 'auth'
+	'uses' => 'CourseController@likeCourse'
 ]);
 
 Route::post('/course/{id}/dislike', [
-	'uses' => 'CourseController@dislikeCourse',
-	'middleware' => 'auth'
+	'uses' => 'CourseController@dislikeCourse'
 ]);
 
 //Semester

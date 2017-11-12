@@ -24,6 +24,7 @@ Route::delete('/category/{id}', ['uses' => 'CategoryController@deleteCourse']);
 Route::post('/course', ['uses' => 'CourseController@postCourse']);
 
 Route::get('/courses', [
+    'middleware' => 'auth',
 	'uses' => 'CourseController@getCourses'
 ]);
 

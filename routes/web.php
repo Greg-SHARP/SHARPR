@@ -15,3 +15,8 @@ Route::get('/', function () {
 
     return view('index');
 });
+
+
+Route::get('test', [
+'uses' => 'CategoryController@test'
+]);

@@ -12,28 +12,68 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-    	//create 10 primary categores
-        $categories = factory(Category::class, 10)->create();
+        Excel::load('excel/categories.csv', function($reader) {
 
-        //for each category, create 0 to 3 subcategories
-        foreach($categories as $category){
+            //get all categories
+            $categories = $reader->all();
 
-        	$rand = rand(0, 3);
+            //set current category
+            $current = false;
+            $parent = false;
 
-        	if($rand){
+            foreach($categories as $category){
 
-        		//create subcategories
-        		$subcategories = factory(Category::class, $rand)->create([ 'parent' => $category->id ]);
+                //remove whitespace
+                $category->name = trim($category->name);
+                $category->parent = trim($category->parent);
 
-        		//for each subcategory, create 0 to 5 sub-subcategories
-        		foreach($subcategories as $subcategory){
+                if( (!$current) || ($current !== $category->parent)){
 
-        			$rand = rand(0, 5);
+                    //set current category
+                    $current = $category->name;
 
-        			if($rand)
-        				factory(Category::class, $rand)->create([ 'parent' => $subcategory->id ]);
-        		}
-        	}
-        }
+                    $parent = new Category;
+
+                    $parent->name = $category->name;
+                    $parent->save();
+                }
+                elseif($parent){ //if we have a parent
+
+                    //check if category parent matches current parent
+                    if($category->parent == $parent->name){
+
+                        $sub_category = new Category;
+                        
+                        $sub_category->name = $category->name;
+                        $sub_category->parent = $parent->id;
+                        $sub_category->save();
+                    }
+                }
+            }
+        });
+
+        // //create 10 primary categores
+        // $categories = factory(Category::class, 10)->create();
+
+        // //for each category, create 0 to 3 subcategories
+        // foreach($categories as $category){
+
+        // 	$rand = rand(0, 3);
+
+        // 	if($rand){
+
+        // 		//create subcategories
+        // 		$subcategories = factory(Category::class, $rand)->create([ 'parent' => $category->id ]);
+
+        // 		//for each subcategory, create 0 to 5 sub-subcategories
+        // 		foreach($subcategories as $subcategory){
+
+        // 			$rand = rand(0, 5);
+
+        // 			if($rand)
+        // 				factory(Category::class, $rand)->create([ 'parent' => $subcategory->id ]);
+        // 		}
+        // 	}
+        // }
     }
 }

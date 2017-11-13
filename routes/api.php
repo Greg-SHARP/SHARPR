@@ -93,3 +93,8 @@ Route::post('/user', ['uses' => 'UserController@signup']);
 Route::post('/login', ['uses' => 'UserController@login']);
 Route::get('/users', ['uses' => 'UserController@getUsers']);
 Route::get('/user/{id}', ['uses' => 'UserController@getUser']);
+
+Route::get('/refresh', [
+	'middleware' => 'auth',
+	'uses' => 'UserController@refresh'
+]);

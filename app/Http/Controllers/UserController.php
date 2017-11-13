@@ -9,6 +9,11 @@ use JWTAuth;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.refresh')->only('refresh');
+    }
+    
     public function signup(Request $request){
 
         $this->validate($request, [
@@ -108,5 +113,10 @@ class UserController extends Controller
     	}
 
     	return response()->json($user, 200);
+    }
+
+    public function refresh()
+    {
+        return;
     }
 }

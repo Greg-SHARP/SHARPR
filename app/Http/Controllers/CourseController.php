@@ -9,9 +9,15 @@ use App\Dislike;
 use App\Like;
 use JWTAuth;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt.refresh')->only('refresh');
+    }
+    
     public function postCourse(Request $request){
 
     	$course = new Course();

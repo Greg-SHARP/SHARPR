@@ -21,38 +21,86 @@ class UsersTableSeeder extends Seeder
 
         DB::table('role_user')->insert(['user_id' => $id, 'role_id' => 1]);
 
-    	//create 10 instructors
-        $users = factory(User::class, 10)->create();
+        // //create 10 instructors
+        // $users = factory(User::class, 10)->create();
 
-        foreach($users as $user){
+        // foreach($users as $user){
 
-        	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 2]);
-        	factory(Instructor::class)->create([ 'user_id' => $user->id ]);
+        // 	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 2]);
+        // 	factory(Instructor::class)->create([ 'user_id' => $user->id ]);
 
-            //create 0 to 10 ratings for each instructor
-            $rand = rand(1, 10);
+        //     //create 0 to 10 ratings for each instructor
+        //     $rand = rand(1, 10);
 
-            factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'instructors']);
+        //     factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'instructors']);
 
-            //create 1 to 2 addresses
-            $rand = rand(0, 1);
+        //     //create 1 to 2 addresses
+        //     $rand = rand(0, 1);
 
-            //create address
-            factory(Address::class)->create([
-                'addressable_id' => $user->id, 
-                'addressable_type' => 'instructors']);
+        //     //create address
+        //     factory(Address::class)->create([
+        //         'addressable_id' => $user->id, 
+        //         'addressable_type' => 'instructors']);
 
-            if($rand){
+        //     if($rand){
 
-                //create work address
-                factory(Address::class)->create([
-                    'addressable_id' => $user->id, 
-                    'addressable_type' => 'instructors',
-                    'type' => 'work']);
+        //         //create work address
+        //         factory(Address::class)->create([
+        //             'addressable_id' => $user->id, 
+        //             'addressable_type' => 'instructors',
+        //             'type' => 'work']);
+        //     }
+
+        //     factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'instructors']);
+        // }
+        
+        //import instructors
+        Excel::load('excel/instructors.csv', function($reader) {
+
+            //get all instructors
+            $instructors = $reader->all();
+
+            foreach($instructors as $instructor){
+
+                //remove whitespace
+                $instructor->name = trim($instructor->name);
+                $instructor->email = trim($instructor->email);
+                $instructor->profile_img = trim($instructor->profile_img);
+                $instructor->dob = trim($instructor->dob);
+                $instructor->phone = trim($instructor->phone);
+                $instructor->description = trim($instructor->description);
+
+                //create user
+                $user = new User;
+
+                //set data
+                $user->name = $instructor->name;
+                $user->email = $instructor->email;
+                $user->password = bcrypt('password');
+                $user->remember_token = str_random(10);
+                $user->profile_img = $instructor->profile_img;
+                $user->dob = date_create($instructor->dob);
+                $user->status = 'active';
+                $user->verified = 1;
+
+                //save user
+                $user->save();
+
+                //make new instructor
+                $new_instructor = new Instructor;
+
+                //create details
+                $details = [
+                    'description' => $instructor->description
+                ];
+
+                $new_instructor->phone = $instructor->phone;
+                $new_instructor->details = json_encode($details);
+
+                //save instructor to newly created user
+                $user->instructor()->save($new_instructor);
             }
-
-            factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'instructors']);
-        }
+        });
 
     	//create 50 students
         $users = factory(User::class, 50)->create();

@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->dateTime('dob')->nullable();
+            $table->string('profile_img')->nullable();
             $table->enum('status', ['inactive', 'active', 'blocked'])->default('inactive');
             $table->boolean('verified')->default(0);
             $table->integer('referred_by')->unsigned()->nullable()->references('id')->on('users');

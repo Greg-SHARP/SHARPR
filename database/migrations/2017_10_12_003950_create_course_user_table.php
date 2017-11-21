@@ -16,6 +16,7 @@ class CreateCourseUserTable extends Migration
         Schema::create('course_user', function (Blueprint $table) {
             $table->integer('course_id')->unsigned()->references('id')->on('courses');
             $table->integer('user_id')->unsigned()->references('id')->on('users');
+            $table->enum('status', ['active', 'upcoming', 'canceled'])->default('upcoming');
         });
     }
 

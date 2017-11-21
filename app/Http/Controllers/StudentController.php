@@ -22,6 +22,8 @@ class StudentController extends Controller
 
     	$students = Student::with('addresses')
             ->with('user:id,name,email,dob,profile_img,status,verified,referred_by')
+            ->with('addresses')
+            ->with('courses')
             ->get();
 
         $students->map(function($i){
@@ -55,6 +57,7 @@ class StudentController extends Controller
         })
         ->with('user:id,name,email,dob,profile_img,status,verified,referred_by')
         ->with('addresses')
+        ->with('courses')
         ->first();
 
         if(!$student){

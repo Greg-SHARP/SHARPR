@@ -21,7 +21,7 @@ class StudentController extends Controller
     public function getStudents(){
 
     	$students = Student::with('addresses')
-            ->with('user:id,name,email,dob,status,verified,referred_by')
+            ->with('user:id,name,email,dob,profile_img,status,verified,referred_by')
             ->get();
 
         $students->map(function($i){
@@ -30,6 +30,7 @@ class StudentController extends Controller
             $i->name        = $i->user->name;
             $i->email       = $i->user->email;
             $i->dob         = $i->user->dob;
+            $i->profile_img = $i->user->profile_img;
             $i->status      = $i->user->status;
             $i->verified    = $i->user->verified;
             $i->referred_by = $i->user->referred_by;
@@ -52,7 +53,7 @@ class StudentController extends Controller
 
             $query->where('id', $id);
         })
-        ->with('user:id,name,email,dob,status,verified,referred_by')
+        ->with('user:id,name,email,dob,profile_img,status,verified,referred_by')
         ->with('addresses')
         ->first();
 
@@ -61,13 +62,14 @@ class StudentController extends Controller
             return response()->json(['message' => 'Student not found'], 404);
         }
 
-        $student->id          = $student->user->id;
-        $student->name        = $student->user->name;
-        $student->email       = $student->user->email;
-        $student->dob         = $student->user->dob;
-        $student->status      = $student->user->status;
-        $student->verified    = $student->user->verified;
-        $student->referred_by = $student->user->referred_by;
+        $student->id           = $student->user->id;
+        $student->name         = $student->user->name;
+        $student->email        = $student->user->email;
+        $student->dob          = $student->user->dob;
+        $student->proflile_img = $student->user->proflile_img;
+        $student->status       = $student->user->status;
+        $student->verified     = $student->user->verified;
+        $student->referred_by  = $student->user->referred_by;
 
         unset($student->user);
         unset($student->user_id);

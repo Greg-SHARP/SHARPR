@@ -21,7 +21,7 @@ class InstructorController extends Controller
     public function getInstructors(){
 
     	$instructors = Instructor::with('addresses')
-            ->with('user:id,name,email,dob,status,verified,referred_by')
+            ->with('user:id,name,email,dob,profile_img,status,verified,referred_by')
             ->get();
 
         $instructors->map(function($i){
@@ -30,6 +30,7 @@ class InstructorController extends Controller
             $i->name        = $i->user->name;
             $i->email       = $i->user->email;
             $i->dob         = $i->user->dob;
+            $i->profile_img = $i->user->profile_img;
             $i->status      = $i->user->status;
             $i->verified    = $i->user->verified;
             $i->referred_by = $i->user->referred_by;
@@ -52,7 +53,7 @@ class InstructorController extends Controller
 
             $query->where('id', $id);
         })
-        ->with('user:id,name,email,dob,status,verified,referred_by')
+        ->with('user:id,name,email,dob,status,profile_img,verified,referred_by')
         ->with('addresses')
         ->first();
 
@@ -65,6 +66,7 @@ class InstructorController extends Controller
         $instructor->name        = $instructor->user->name;
         $instructor->email       = $instructor->user->email;
         $instructor->dob         = $instructor->user->dob;
+        $instructor->profile_img = $instructor->user->profile_img;
         $instructor->status      = $instructor->user->status;
         $instructor->verified    = $instructor->user->verified;
         $instructor->referred_by = $instructor->user->referred_by;

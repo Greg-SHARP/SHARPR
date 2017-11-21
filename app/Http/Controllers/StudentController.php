@@ -69,7 +69,7 @@ class StudentController extends Controller
         $student->name         = $student->user->name;
         $student->email        = $student->user->email;
         $student->dob          = $student->user->dob;
-        $student->proflile_img = $student->user->proflile_img;
+        $student->profile_img  = $student->user->profile_img;
         $student->status       = $student->user->status;
         $student->verified     = $student->user->verified;
         $student->referred_by  = $student->user->referred_by;

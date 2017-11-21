@@ -22,11 +22,11 @@ class StudentController extends Controller
 
     	$students = Student::with('addresses')
             ->with('user:id,name,email,dob,status,verified,referred_by')
-            ->with('courses')
             ->get();
 
         $students->map(function($i){
 
+            $i->id          = $i->user->id;
             $i->name        = $i->user->name;
             $i->email       = $i->user->email;
             $i->dob         = $i->user->dob;
@@ -35,6 +35,7 @@ class StudentController extends Controller
             $i->referred_by = $i->user->referred_by;
 
             unset($i->user);
+            unset($i->user_id);
 
             return $i;
         });
@@ -47,16 +48,20 @@ class StudentController extends Controller
     }
     public function getStudent($id){
 
-    	$student = Student::with('addresses')
-            ->with('user:id,name,email,dob,status,verified,referred_by')
-            ->with('courses')
-            ->find($id);
+    	$student = Student::whereHas('user', function ($query) use ($id){
+
+            $query->where('id', $id);
+        })
+        ->with('user:id,name,email,dob,status,verified,referred_by')
+        ->with('addresses')
+        ->first();
 
         if(!$student){
 
             return response()->json(['message' => 'Student not found'], 404);
         }
 
+        $student->id          = $student->user->id;
         $student->name        = $student->user->name;
         $student->email       = $student->user->email;
         $student->dob         = $student->user->dob;
@@ -65,6 +70,7 @@ class StudentController extends Controller
         $student->referred_by = $student->user->referred_by;
 
         unset($student->user);
+        unset($student->user_id);
 
         return response()->json($student, 200);
     }

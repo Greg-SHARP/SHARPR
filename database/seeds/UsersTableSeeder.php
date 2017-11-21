@@ -69,6 +69,12 @@ class UsersTableSeeder extends Seeder
                 $instructor->dob = trim($instructor->dob);
                 $instructor->phone = trim($instructor->phone);
                 $instructor->description = trim($instructor->description);
+                $instructor->url = trim($instructor->url);
+                $instructor->facebook = trim($instructor->facebook);
+                $instructor->twitter = trim($instructor->twitter);
+                $instructor->linkedin = trim($instructor->linkedin);
+                $instructor->pinterest = trim($instructor->pinterest);
+                $instructor->yelp = trim($instructor->yelp);
 
                 //create user
                 $user = new User;
@@ -91,7 +97,13 @@ class UsersTableSeeder extends Seeder
 
                 //create details
                 $details = [
-                    'description' => $instructor->description
+                    'description' => $instructor->description,
+                    'url' => $instructor->url,
+                    'facebook' => $instructor->facebook,
+                    'twitter' => $instructor->twitter,
+                    'linkedin' => $instructor->linkedin,
+                    'pinterest' => $instructor->pinterest,
+                    'yelp' => $instructor->yelp
                 ];
 
                 $new_instructor->phone = $instructor->phone;
@@ -99,6 +111,9 @@ class UsersTableSeeder extends Seeder
 
                 //save instructor to newly created user
                 $user->instructor()->save($new_instructor);
+
+                //attach instructor role
+                $user->roles()->attach(2);
             }
         });
 

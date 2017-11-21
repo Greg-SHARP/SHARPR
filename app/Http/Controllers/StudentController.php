@@ -21,12 +21,13 @@ class StudentController extends Controller
     public function getStudents(){
 
     	$students = Student::with('addresses')
-            ->with('user:id,email,dob,status,verified,referred_by')
+            ->with('user:id,name,email,dob,status,verified,referred_by')
             ->with('courses')
             ->get();
 
         $students->map(function($i){
 
+            $i->name        = $i->user->name;
             $i->email       = $i->user->email;
             $i->dob         = $i->user->dob;
             $i->status      = $i->user->status;
@@ -47,7 +48,7 @@ class StudentController extends Controller
     public function getStudent($id){
 
     	$student = Student::with('addresses')
-            ->with('user:id,email,dob,status,verified,referred_by')
+            ->with('user:id,name,email,dob,status,verified,referred_by')
             ->with('courses')
             ->find($id);
 
@@ -56,6 +57,7 @@ class StudentController extends Controller
             return response()->json(['message' => 'Student not found'], 404);
         }
 
+        $student->name        = $student->user->name;
         $student->email       = $student->user->email;
         $student->dob         = $student->user->dob;
         $student->status      = $student->user->status;

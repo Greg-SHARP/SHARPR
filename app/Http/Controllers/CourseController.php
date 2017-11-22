@@ -40,13 +40,13 @@ class CourseController extends Controller
         });
 
         //check if group was provided
-        if($request->input('group_id')){
+        if($request->input('group')){
 
             //store group
-            $group_id = (int) $request->input('group_id');
+            $group = (int) $request->input('group');
 
-            $courses = $courses->whereHas('group', function($query) use ($group_id){
-                $query->where('id', $group_id);
+            $courses = $courses->whereHas('group', function($query) use ($group){
+                $query->where('id', $group);
             });
         }
 

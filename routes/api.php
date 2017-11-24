@@ -90,11 +90,18 @@ Route::delete('/role/{id}', ['uses' => 'RoleController@deleteRole']);
 
 //User
 Route::post('/user', ['uses' => 'UserController@signup']);
-Route::post('/login', ['uses' => 'UserController@login']);
 Route::get('/users', ['uses' => 'UserController@getUsers']);
 Route::get('/user/{id}', ['uses' => 'UserController@getUser']);
 
-Route::get('/refresh', [
-	'middleware' => 'auth',
-	'uses' => 'UserController@refresh'
-]);
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+});

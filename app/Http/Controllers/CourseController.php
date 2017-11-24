@@ -103,6 +103,23 @@ class CourseController extends Controller
             }
         }
 
+        //check if excludes array was provided
+        if($request->input('excludes')){
+
+            //store excludes
+            $excludes = $request->input('excludes');
+
+            //check if array
+            if( (is_array($excludes)) && (!empty($excludes)) ){
+
+                //convert to ints
+                $excludes = array_map('intval', $excludes);
+
+                //exclude liked courses
+                $courses = $courses->whereNotIn('id', $excludes);
+            }
+        }
+
         //check if likes array was provided
         if($request->input('likes')){
 

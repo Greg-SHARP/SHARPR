@@ -32,10 +32,12 @@ class CoursesTableSeeder extends Seeder
         //get all courses
         $courses = Course::all();
 
-        //create 1 semester for each course
+        //create 1 to 2 semesters for each course
         foreach($courses as $course){
 
-        	$semesters = factory(Semester::class, 1)->create(['course_id' => $course->id]);
+            $rand = rand(1, 2);
+
+        	$semesters = factory(Semester::class, $rand)->create(['course_id' => $course->id]);
 
             //create 0 to 10 ratings for each course
             $rand = rand(1, 10);

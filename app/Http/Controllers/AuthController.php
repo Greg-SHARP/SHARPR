@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
@@ -43,7 +44,25 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json($this->guard()->user());
+        //get user
+        $user = $this->guard()->user()->load('roles');
+
+        //create empty array
+        $roles = [];
+
+        //for each role, add to new array
+        foreach ($user->roles as $role) {
+            
+            array_push($roles, $role->label);
+        }
+
+        //unset relationship
+        unset($user->roles);
+
+        //set new array
+        $user->roles = array_unique($roles);
+
+        return response()->json($user);
     }
 
     /**

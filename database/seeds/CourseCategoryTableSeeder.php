@@ -13,34 +13,34 @@ class CourseCategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        $courses = Course::all();
+      //   $courses = Course::all();
 
-        //give every course 1 primary category
-        foreach($courses as $course){
+      //   //give every course 1 primary category
+      //   foreach($courses as $course){
 
-    		$category = Category::inRandomOrder()->where('parent', NULL)->first();
+    		// $category = Category::inRandomOrder()->where('parent', NULL)->first();
 
-    		DB::table('category_course')
-    			->insert(['course_id' => $course->id, 'category_id' => $category->id]);
+    		// DB::table('category_course')
+    		// 	->insert(['course_id' => $course->id, 'category_id' => $category->id]);
 
-            $sub_categories = Category::where('parent', $category->id)->get();
+      //       $sub_categories = Category::where('parent', $category->id)->get();
 
-            if($sub_categories){
+      //       if($sub_categories){
 
-                foreach($sub_categories as $sub_category) {
+      //           foreach($sub_categories as $sub_category) {
             
-                    $i = 0;
-                    $rand = rand(1, 2);
+      //               $i = 0;
+      //               $rand = rand(1, 2);
 
-                    while($i < $rand){
+      //               while($i < $rand){
 
-                        $i++;
+      //                   $i++;
 
-                        DB::table('category_course')
-                            ->insert(['course_id' => $course->id, 'category_id' => $sub_category->id]);
-                    }
-                }
-            }
-        }
+      //                   DB::table('category_course')
+      //                       ->insert(['course_id' => $course->id, 'category_id' => $sub_category->id]);
+      //               }
+      //           }
+      //       }
+      //   }
     }
 }

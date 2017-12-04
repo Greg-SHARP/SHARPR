@@ -17,7 +17,7 @@ class CreateInstructorsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->references('id')->on('users');
             $table->string('phone');
-            $table->json('details');
+            $table->json('details')->nullable();
             $table->timestamps();
         });
     }

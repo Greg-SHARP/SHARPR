@@ -112,7 +112,7 @@ class CoursesTableSeeder extends Seeder
                 //get instructor
                 $instructor = Instructor::whereHas('user', function ($query) use ($course){
 
-                    $query->where('name', 'Susan Bishop');
+                    $query->where('name', $course->instructor);
                 })
                 ->first();
 
@@ -297,6 +297,14 @@ class CoursesTableSeeder extends Seeder
 
                     $meeting->save();
                 }
+
+                //create 0 to 10 ratings for each course
+                $rand = rand(1, 10);
+
+                factory(Rating::class, $rand)->create([
+                    'rateable_id' => $new_course->id, 
+                    'rateable_type' => 'courses'
+                ]);
             }
         });
     }

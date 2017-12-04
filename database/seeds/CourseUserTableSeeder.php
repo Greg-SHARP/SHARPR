@@ -29,12 +29,12 @@ class CourseUserTableSeeder extends Seeder
 				            })
 				            ->take($rand)
 				            ->get();
-            }
 
-            foreach($users as $user){
+                foreach($users as $user){
 
-    			DB::table('course_user')
-    				->insert(['course_id' => $course->id, 'user_id' => $user->id]);
+                    DB::table('course_user')
+                        ->insert(['course_id' => $course->id, 'user_id' => $user->id]);
+                }
             }
         }
     }

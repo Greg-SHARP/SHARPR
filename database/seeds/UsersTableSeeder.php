@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Institution;
 use App\Instructor;
 use App\Student;
 use App\Rating;
@@ -152,13 +153,58 @@ class UsersTableSeeder extends Seeder
             }
         }
 
-    	//create 10 institutions
-        $users = factory(User::class, 10)->create();
+        // //create 10 institutions
+        // $users = factory(User::class, 10)->create();
 
-        foreach($users as $user){
+        // foreach($users as $user){
 
-        	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 4]);
-        }
+        // 	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 4]);
+        // }
+
+        //import instructors
+        Excel::load('excel/institutions.csv', function($reader) {
+
+            //get all institutions
+            $institutions = $reader->all();
+
+            foreach($institutions as $institution){
+
+                //remove whitespace
+                $institution->name = trim($institution->name);
+                $institution->email = trim($institution->email);
+                $institution->profile_img = trim($institution->profile_img);
+                $institution->dob = trim($institution->dob);
+
+                //create user
+                $user = new User;
+
+                //set data
+                $user->name = $institution->name;
+                $user->email = $institution->email;
+                $user->password = bcrypt('password');
+                $user->remember_token = str_random(10);
+                $user->status = 'active';
+                $user->verified = 1;
+
+                //save user
+                $user->save();
+
+                //make new institution
+                $new_institution = new Institution;
+
+                //create details
+                //$details = [];
+
+                $new_institution->phone = $institution->phone;
+                //$new_institution->details = json_encode($details);
+
+                //save institution to newly created user
+                $user->institution()->save($new_institution);
+
+                //attach institution role
+                $user->roles()->attach(4);
+            }
+        });
 
     	//create 10 employees
         $users = factory(User::class, 10)->create();

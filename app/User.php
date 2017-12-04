@@ -29,6 +29,14 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * The institution associated with the user
+     */
+    public function institution()
+    {
+        return $this->hasOne('App\Institution');
+    }
+
+    /**
      * The instructor associated with the user
      */
     public function instructor()

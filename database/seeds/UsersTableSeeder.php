@@ -125,10 +125,14 @@ class UsersTableSeeder extends Seeder
         	DB::table('role_user')->insert(['user_id' => $user->id, 'role_id' => 3]);
         	factory(Student::class)->create([ 'user_id' => $user->id ]);
 
-            //create 0 to 10 ratings for each student
-            $rand = rand(1, 10);
+            //create 0 to 3 ratings for each instructor
+            $rand = rand(0, 3);
             
-            factory(Rating::class, $rand)->create(['rateable_id' => $user->id, 'rateable_type' => 'students']);
+            factory(Rating::class, $rand)->create([
+                'user_id' => $user->id, 
+                'rateable_id' => Instructor::inRandomOrder()->first()->user_id,
+                'rateable_type' => 'instructors'
+            ]);
 
             //create 1 to 2 addresses
             $rand = rand(0, 1);

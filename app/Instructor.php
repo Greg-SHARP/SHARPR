@@ -8,6 +8,10 @@ class Instructor extends Model
 {
 	protected $hidden = ['created_at', 'updated_at'];
 
+    protected $appends = [
+        'rating'
+    ];
+
 	/**
      * Get the user that belongs to instructor
      */
@@ -17,18 +21,26 @@ class Instructor extends Model
     }
 
     /**
-     * Get all of the instructor's ratings
-     */
-    public function ratings()
-    {
-        return $this->morphMany('App\Rating', 'rateable');
-    }
-
-    /**
      * Get all of the instructor's addresses
      */
     public function addresses()
     {
         return $this->morphMany('App\Address', 'addressable', NULL, 'addressable_id', 'user_id');
+    }
+
+    /**
+     * Get all of the instructor's ratings
+     */
+    public function ratings()
+    {
+        return $this->morphMany('App\Rating', 'rateable', NULL, 'rateable_id', 'user_id');
+    }
+
+    /**
+     * The rating of the course
+     */
+    public function getRatingAttribute()
+    {
+        return 4.5;
     }
 }

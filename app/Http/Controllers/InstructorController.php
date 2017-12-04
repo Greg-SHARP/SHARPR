@@ -22,6 +22,7 @@ class InstructorController extends Controller
 
     	$instructors = Instructor::with('addresses')
             ->with('user:id,name,email,dob,profile_img,status,verified,referred_by')
+            ->with('ratings')
             ->get();
 
         $instructors->map(function($i){
@@ -54,6 +55,7 @@ class InstructorController extends Controller
             $query->where('id', $id);
         })
         ->with('user:id,name,email,dob,status,profile_img,verified,referred_by')
+        ->with('ratings')
         ->with('addresses')
         ->first();
 

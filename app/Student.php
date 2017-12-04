@@ -17,14 +17,6 @@ class Student extends Model
     }
 
     /**
-     * Get all of the instructor's ratings
-     */
-    public function ratings()
-    {
-        return $this->morphMany('App\Rating', 'rateable');
-    }
-
-    /**
      * Get all of the student's addresses
      */
     public function addresses()

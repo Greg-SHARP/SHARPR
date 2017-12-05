@@ -60,6 +60,13 @@ Route::get('/instructor/{id}', ['uses' => 'InstructorController@getInstructor'])
 Route::put('/instructor/{id}', ['uses' => 'InstructorController@putInstructor']);
 Route::delete('/instructor/{id}', ['uses' => 'InstructorController@deleteInstructor']);
 
+//Institution
+Route::post('/institution', ['uses' => 'InstitutionController@postInstitution']);
+Route::get('/institutions', ['uses' => 'InstitutionController@getInstitutions']);
+Route::get('/institution/{id}', ['uses' => 'InstitutionController@getInstitution']);
+Route::put('/institution/{id}', ['uses' => 'InstitutionController@putInstitution']);
+Route::delete('/institution/{id}', ['uses' => 'InstitutionController@deleteInstitution']);
+
 //Meeting
 Route::post('/meeting', ['uses' => 'MeetingController@postMeeting']);
 Route::get('/meetings', ['uses' => 'MeetingController@getMeetings']);

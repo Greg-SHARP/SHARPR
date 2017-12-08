@@ -16,6 +16,11 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('group_id')->unsigned()->references('id')->on('groups');
+            $table->integer('institution_id')
+                    ->unsigned()
+                    ->references('id')
+                    ->on('institutions')
+                    ->nullable();
             $table->integer('instructor')->unsigned()->references('id')->on('instructors');
             $table->string('title');
             $table->text('description');

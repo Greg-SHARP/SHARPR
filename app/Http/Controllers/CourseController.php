@@ -195,6 +195,7 @@ class CourseController extends Controller
         $courses = $courses
         ->with('group')
         ->with('instructor:id,name,email')
+        ->with('institution.user')
         ->with('semesters:id,course_id,amount,availability,primary_img')
         ->with('semesters.addresses')
         ->with('categories', 'tags')
@@ -213,6 +214,38 @@ class CourseController extends Controller
         //get courses
         $courses = $courses->get();
 
+        //edit data
+        if($courses){
+
+            //edit data
+            $courses = $courses->map(function($course){
+
+                //if we have institution
+                if($course->institution){
+
+                    $course->institution->id = $course->institution->user_id; 
+                    $course->institution->name = $course->institution->user->name;
+                    $course->institution->email = $course->institution->user->email;
+
+                    unset($course->institution->user);
+                    unset($course->institution->details);
+                }
+
+                return $course;
+            });
+
+            $courses = $courses->map(function($course){
+
+                //if we have institution
+                if($course->institution){
+
+                    unset($course->institution->user_id);
+                }
+
+                return $course;
+            });
+        }
+
         $response = [
          'courses' => $courses
         ];
@@ -227,9 +260,26 @@ class CourseController extends Controller
         })
         ->with('group')
         ->with('instructor:id,name,email')
+        ->with('institution.user')
         ->with('categories', 'tags', 'semesters', 'semesters.addresses', 'ratings')
         ->with('semesters.meetings')
         ->find($id);
+
+        //edit data
+        if($course){
+
+            //if we have institution
+            if($course->institution){
+
+                $course->institution->id = $course->institution->user_id; 
+                $course->institution->name = $course->institution->user->name;
+                $course->institution->email = $course->institution->user->email;
+
+                unset($course->institution->user);
+                unset($course->institution->user_id);
+                unset($course->institution->details);
+            }
+        }
 
 
     	if(!$course){

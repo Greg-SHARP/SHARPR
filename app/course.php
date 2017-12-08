@@ -23,6 +23,14 @@ class Course extends Model
     }
 
     /**
+     * The institution to course belongs to
+     */
+    public function institution()
+    {
+        return $this->belongsTo('App\Institution');
+    }
+
+    /**
      * The group to course belongs to
      */
     public function group()

@@ -23,4 +23,12 @@ class Institution extends Model
     {
         return $this->morphMany('App\Address', 'addressable', NULL, 'addressable_id', 'user_id');
     }
+
+    /**
+     * The courses the institution has
+     */
+    public function courses()
+    {
+        return $this->hasMany('App\Course');
+    }
 }

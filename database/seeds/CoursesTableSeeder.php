@@ -9,6 +9,7 @@ use App\Address;
 use App\Group;
 use App\Instructor;
 use App\Category;
+use App\Institution;
 
 class CoursesTableSeeder extends Seeder
 {
@@ -125,6 +126,16 @@ class CoursesTableSeeder extends Seeder
                 //no group, move to next in loop
                 if(!$group) continue;
 
+                //get institution
+                $institution = Institution::whereHas('user', function ($query) use ($course){
+
+                    $query->where('name', $course->institution);
+                })
+                ->first();
+
+                //no institution, move to next in loop
+                //if(!$institution) continue;
+
                 //get category
                 $category = Category::where('name', $course->category)->first();
                 $sub_category = Category::where('name', $course->sub_category)->first();
@@ -134,6 +145,7 @@ class CoursesTableSeeder extends Seeder
 
                 //set data
                 $new_course->group_id = $group->id;
+                $new_course->institution_id = $institution->id;
                 $new_course->instructor = $instructor->user_id;
                 $new_course->title = $course->course_title;
                 $new_course->description = $course->description;

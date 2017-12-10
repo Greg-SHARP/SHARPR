@@ -22,6 +22,7 @@ class InstitutionController extends Controller
     	$institutions = Institution::with('addresses')
             ->with('user:id,name,email,profile_img,status,verified')
             ->with('addresses')
+            ->with('courses')
             ->get();
 
         $institutions->map(function($i){
@@ -53,6 +54,7 @@ class InstitutionController extends Controller
 		})
 		->with('user:id,name,email,profile_img,status,verified')
 		->with('addresses')
+        ->with('courses')
 		->first();
 
         if(!$institution){

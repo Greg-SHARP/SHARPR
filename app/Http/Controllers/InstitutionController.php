@@ -23,6 +23,10 @@ class InstitutionController extends Controller
             ->with('user:id,name,email,profile_img,status,verified')
             ->with('addresses')
             ->with('courses')
+            ->with('courses.categories')
+            ->with('courses.tags')
+            ->with('courses.instructor')
+            ->with('courses.semesters:id,course_id,amount,availability,primary_img')
             ->get();
 
         $institutions->map(function($i){
@@ -55,6 +59,10 @@ class InstitutionController extends Controller
 		->with('user:id,name,email,profile_img,status,verified')
 		->with('addresses')
         ->with('courses')
+        ->with('courses.categories')
+        ->with('courses.tags')
+        ->with('courses.instructor')
+        ->with('courses.semesters:id,course_id,amount,availability,primary_img')
 		->first();
 
         if(!$institution){

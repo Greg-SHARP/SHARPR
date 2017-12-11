@@ -174,6 +174,7 @@ class UsersTableSeeder extends Seeder
                 $institution->email = trim($institution->email);
                 $institution->profile_img = trim($institution->profile_img);
                 $institution->dob = trim($institution->dob);
+                $institution->description = trim($institution->description);
 
                 //create user
                 $user = new User;

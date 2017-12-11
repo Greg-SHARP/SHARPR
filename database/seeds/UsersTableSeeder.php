@@ -183,6 +183,7 @@ class UsersTableSeeder extends Seeder
                 $user->email = $institution->email;
                 $user->password = bcrypt('password');
                 $user->remember_token = str_random(10);
+                $user->profile_img = $institution->profile_img;
                 $user->status = 'active';
                 $user->verified = 1;
 
@@ -193,10 +194,13 @@ class UsersTableSeeder extends Seeder
                 $new_institution = new Institution;
 
                 //create details
-                //$details = [];
+                $details = [
+                    'description' => $institution->description,
+                    'url' => $institution->url
+                ];
 
                 $new_institution->phone = $institution->phone;
-                //$new_institution->details = json_encode($details);
+                $new_institution->details = json_encode($details);
 
                 //save institution to newly created user
                 $user->institution()->save($new_institution);

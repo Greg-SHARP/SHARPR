@@ -86,12 +86,17 @@ class UserController extends Controller
     
     public function checkEmail(Request $request){
 
-        $this->validate($request, [
-            'email' => 'required|email|unique:users'
-        ]);
+        if(User::where('email', '=', $request->input('email'))->exists()) {
 
-        return response()->json([
-            'message' => 'Email valid!'
-        ], 201);
+            return response()->json([
+                'message' => 'Email taken!'
+            ], 409);
+        }
+        else{
+
+            return response()->json([
+                'message' => 'Email valid!'
+            ], 201);
+        }
     }
 }

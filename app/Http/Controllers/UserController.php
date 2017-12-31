@@ -83,4 +83,15 @@ class UserController extends Controller
 
     	return response()->json($user, 200);
     }
+    
+    public function checkEmail(Request $request){
+
+        $this->validate($request, [
+            'email' => 'required|email|unique:users'
+        ]);
+
+        return response()->json([
+            'message' => 'Email valid!'
+        ], 201);
+    }
 }

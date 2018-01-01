@@ -19,7 +19,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'type' => ['required', new Roles]
+            'role' => ['required', new Roles]
         ]);
 
         //create data to insert
@@ -34,7 +34,7 @@ class UserController extends Controller
 
         //get role
         $role = Role::select('id')
-                    ->where('label', $request->input('type'))
+                    ->where('label', $request->input('role'))
                     ->first();
 
 

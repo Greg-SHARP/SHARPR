@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Instructor;
+use App\Institution;
+use App\Student;
 use App\Role;
 use App\Rules\Roles;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -33,13 +36,30 @@ class UserController extends Controller
         $user->save();
 
         //get role
-        $role = Role::select('id')
+        $role = Role::select('id', 'label')
                     ->where('label', $request->input('role'))
                     ->first();
 
 
         //save role
         $user->roles()->save($role);
+
+        //save user type
+        if($role->label == 'student'){
+            $student = new Student;
+            $student->user_id = $user->id;
+            $student->save();
+        }
+        else if($role->label == 'instructor'){
+            $instructor = new Instructor;
+            $instructor->user_id = $user->id;
+            $instructor->save();
+        }
+        else if($role->label == 'institution'){
+            $institution = new Institution;
+            $institution->user_id = $user->id;
+            $institution->save();
+        }
 
         //return success message
         return response()->json([

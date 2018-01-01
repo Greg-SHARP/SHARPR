@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
+use App\Rules\Types;
 
 class UserController extends Controller
 {
@@ -15,7 +16,8 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'password' => 'required',
+            'type' => ['required', new Types]
         ]);
 
         $user = new User([

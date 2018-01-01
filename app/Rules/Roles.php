@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class Types implements Rule
+class Roles implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,11 +25,11 @@ class Types implements Rule
      */
     public function passes($attribute, $value)
     {
-        //create allowed type array
-        $allowed_type = ['instructor', 'student', 'institution'];
+        //create allowed role array
+        $allowed_role = ['instructor', 'student', 'institution'];
 
-        //if not allowed user type, throw arror
-        if(!in_array($value, $allowed_type)){
+        //if not allowed user role, throw arror
+        if(!in_array($value, $allowed_role)){
             return false;
         }
 
@@ -43,6 +43,6 @@ class Types implements Rule
      */
     public function message()
     {
-        return 'User type not allowed';
+        return 'User role not allowed';
     }
 }

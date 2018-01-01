@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Rules\Roles;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
-use App\Rules\Types;
 
 class UserController extends Controller
 {
@@ -17,7 +17,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'type' => ['required', new Types]
+            'type' => ['required', new Roles]
         ]);
 
         $user = new User([

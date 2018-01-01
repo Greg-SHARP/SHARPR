@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Role;
 use App\Rules\Roles;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use JWTAuth;
@@ -13,6 +14,7 @@ class UserController extends Controller
     
     public function signup(Request $request){
 
+        //validate data
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -20,14 +22,26 @@ class UserController extends Controller
             'type' => ['required', new Roles]
         ]);
 
+        //create data to insert
         $user = new User([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password'))
         ]);
 
+        //save user
         $user->save();
 
+        //get role
+        $role = Role::select('id')
+                    ->where('label', $request->input('type'))
+                    ->first();
+
+
+        //save role
+        $user->roles()->save($role);
+
+        //return success message
         return response()->json([
             'message' => 'Successfully created user!'
         ], 201);

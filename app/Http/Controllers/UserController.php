@@ -11,6 +11,7 @@ use App\Student;
 use App\Role;
 use App\Rules\Roles;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Mail;
 use JWTAuth;
 
 class UserController extends Controller

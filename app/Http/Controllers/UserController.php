@@ -140,17 +140,23 @@ class UserController extends Controller
     public function book(Request $request){
 
         //if token exists
-        if($request->input('token')){
+        if($user = JWTAuth::parseToken()->authenticate()){
 
-            //get user
-            $user = JWTAuth::parseToken()->authenticate();
+            //get student
+            $student = Student::find($user->id);
 
-            //save course
-            $user->courses()->save($request->input('course_id'));
+            //find course
+            $course = Course::find($request->input('course_id'));
+
+            //if course is found, save it to student
+            if($course){
+
+                //save course
+                $student->courses()->save($course);
+            }
         }
-        else{
 
-        }
+        //send emails
 
         return response()->json([
             'message' => 'Course Booked!'

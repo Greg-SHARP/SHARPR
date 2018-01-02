@@ -140,18 +140,15 @@ class UserController extends Controller
 
     public function book(Request $request){
 
-        //find course
-        $course = Course::find($request->input('course_id'));
-
-        //if course is found, save it to student
-        if($course){
+        //if course is found, find it
+        if($course = $request->input('course_id'))){
 
             //create data
             $data = [
                 'course' => $course,
-                'contactselect' => $request->input->post('contactselect'),
-                'drivinguber' => $request->input->post('drivinguber'),
-                'drivingrating' => $request->input->post('drivingrating')
+                'contactselect' => $request->input('contactselect'),
+                'drivinguber' => $request->input('drivinguber'),
+                'drivingrating' => $request->input('drivingrating')
             ];
 
             //save course
@@ -171,9 +168,9 @@ class UserController extends Controller
             else{
 
                 //add more data
-                $data['name'] = $request->input->post('name');
-                $data['email'] = $request->input->post('email');
-                $data['name'] = $request->input->post('phone');
+                $data['name'] = $request->input('name');
+                $data['email'] = $request->input('email');
+                $data['name'] = $request->input('phone');
             }
 
             //send emails

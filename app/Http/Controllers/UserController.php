@@ -141,7 +141,7 @@ class UserController extends Controller
     public function book(Request $request){
 
         //if course is found, find it
-        if($course = $request->input('course_id'))){
+        if($course = $request->input('course_id')){
 
             //create data
             $data = [

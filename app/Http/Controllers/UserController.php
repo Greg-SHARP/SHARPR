@@ -141,7 +141,10 @@ class UserController extends Controller
     public function book(Request $request){
 
         //if course is found, find it
-        if($course = $request->input('course_id')){
+        if($request->input('course_id')){
+
+            //get course
+            $course = Course::find($request->input('course_id'));
 
             //create data
             $data = [
@@ -151,26 +154,26 @@ class UserController extends Controller
                 'drivingrating' => $request->input('drivingrating')
             ];
 
-            //save course
-            $student->courses()->save($course);
-
             //if token exists
             if($user = JWTAuth::parseToken()->authenticate()){
 
                 //get student
                 $student = Student::find($user->id);
 
+                //save course
+                $student->courses()->save($course);
+
                 //add more data
                 $data['name'] = $user->name;
                 $data['email'] = $user->email;
-                $data['name'] = $student->phone;
+                $data['phone'] = $student->phone;
             }
             else{
 
                 //add more data
                 $data['name'] = $request->input('name');
                 $data['email'] = $request->input('email');
-                $data['name'] = $request->input('phone');
+                $data['phone'] = $request->input('phone');
             }
 
             //send emails

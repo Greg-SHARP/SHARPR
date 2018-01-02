@@ -140,33 +140,59 @@ class UserController extends Controller
 
     public function book(Request $request){
 
-        //if token exists
-        if($user = JWTAuth::parseToken()->authenticate()){
+        //find course
+        $course = Course::find($request->input('course_id'));
 
-            //get student
-            $student = Student::find($user->id);
+        //if course is found, save it to student
+        if($course){
 
-            //find course
-            $course = Course::find($request->input('course_id'));
+            //create data
+            $data = [
+                'course' => $course,
+                'contactselect' => $request->input->post('contactselect'),
+                'drivinguber' => $request->input->post('drivinguber'),
+                'drivingrating' => $request->input->post('drivingrating')
+            ];
 
-            //if course is found, save it to student
-            if($course){
+            //save course
+            $student->courses()->save($course);
 
-                //save course
-                $student->courses()->save($course);
+            //if token exists
+            if($user = JWTAuth::parseToken()->authenticate()){
+
+                //get student
+                $student = Student::find($user->id);
+
+                //add more data
+                $data['name'] = $user->name;
+                $data['email'] = $user->email;
+                $data['name'] = $student->phone;
             }
+            else{
+
+                //add more data
+                $data['name'] = $request->input->post('name');
+                $data['email'] = $request->input->post('email');
+                $data['name'] = $request->input->post('phone');
+            }
+
+            //send emails
+            Mail::send('emails.booking', $data, function ($message) {
+
+                $message->from('booking@shrpr.co', 'Shrpr Bookings');
+                $message->to('carlthenimrod@gmail.com');
+                $message->subject('Shrpr: Course Booked!');
+            });
+
+            return response()->json([
+                'message' => 'Course Booked!'
+            ], 201);
         }
+        else{
 
-        //send emails
-        Mail::send('emails.booking', $data, function ($message) {
-
-            $message->from('booking@shrpr.co', 'Shrpr Bookings');
-            $message->to('carlthenimrod@gmail.com');
-            $message->subject('Shrpr: Course Booked!');
-        });
-
-        return response()->json([
-            'message' => 'Course Booked!'
-        ], 201);
+            return response()->json([
+                'error' => 'Course not found!'
+            ], 404);
+        }
     }
 }

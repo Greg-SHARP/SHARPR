@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Course;
 use App\Instructor;
 use App\Institution;
 use App\Student;
@@ -134,5 +135,25 @@ class UserController extends Controller
                 'message' => 'Email valid!'
             ], 201);
         }
+    }
+
+    public function book(Request $request){
+
+        //if token exists
+        if($request->input('token')){
+
+            //get user
+            $user = JWTAuth::parseToken()->authenticate();
+
+            //save course
+            $user->courses()->save($request->input('course_id'));
+        }
+        else{
+
+        }
+
+        return response()->json([
+            'message' => 'Course Booked!'
+        ], 201);
     }
 }

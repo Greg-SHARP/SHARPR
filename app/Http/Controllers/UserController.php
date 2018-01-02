@@ -157,6 +157,12 @@ class UserController extends Controller
         }
 
         //send emails
+        Mail::send('emails.booking', $data, function ($message) {
+
+            $message->from('booking@shrpr.co', 'Shrpr Bookings');
+            $message->to('carlthenimrod@gmail.com');
+            $message->subject('Shrpr: Course Booked!');
+        });
 
         return response()->json([
             'message' => 'Course Booked!'

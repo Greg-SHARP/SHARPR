@@ -158,18 +158,19 @@ class UserController extends Controller
             if($request->input('token')){
 
                 //get user
-                $user = JWTAuth::parseToken()->authenticate()
+                if($user = JWTAuth::parseToken()->authenticate()){
 
-                //get student
-                $student = Student::find($user->id);
+                    //get student
+                    $student = Student::find($user->id);
 
-                //save course
-                $student->courses()->save($course);
+                    //save course
+                    $student->courses()->save($course);
 
-                //add more data
-                $data['name'] = $user->name;
-                $data['email'] = $user->email;
-                $data['phone'] = $student->phone;
+                    //add more data
+                    $data['name'] = $user->name;
+                    $data['email'] = $user->email;
+                    $data['phone'] = $student->phone;
+                }
             }
             else{
 

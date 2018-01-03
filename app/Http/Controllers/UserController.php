@@ -180,7 +180,7 @@ class UserController extends Controller
             Mail::send('emails.booking', $data, function ($message) {
 
                 $message->from('booking@shrpr.co', 'Shrpr Bookings');
-                $message->to('brendan@shrpr.co')->cc('mike@shrpr.co');
+                $message->to('bd@shrpr.co')->cc('mike@shrpr.co');
                 $message->subject('Shrpr: Course Booked!');
             });
 

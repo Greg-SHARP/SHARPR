@@ -154,8 +154,11 @@ class UserController extends Controller
                 'drivingrating' => $request->input('drivingrating')
             ];
 
-            //if token exists
-            if($user = JWTAuth::parseToken()->authenticate()){
+            //check to see if we are including a token
+            if($request->input('token')){
+
+                //get user
+                $user = JWTAuth::parseToken()->authenticate()
 
                 //get student
                 $student = Student::find($user->id);

@@ -71,6 +71,10 @@ class UserController extends Controller
 
     public function signupGoogle(Request $request){
 
+        $token = $request->input('token');
+
+        $user = Socialite::driver('google')->stateless()->userFromToken($token);
+
         //validate data
         $this->validate($request, [
             'name' => 'required',
@@ -81,10 +85,10 @@ class UserController extends Controller
 
         //create data to insert
         $user = new User([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'google_id' => $request->input('google_id'),
-            'profile_img' => $request->input('profile_img')
+            'name' => $user->getName(),
+            'email' => $user->getEmail(),
+            'google_id' => $user->getId(),
+            'profile_img' => $user->getAvatar()
         ]);
 
         //save user
@@ -124,6 +128,10 @@ class UserController extends Controller
 
     public function signupFacebook(Request $request){
 
+        $token = $request->input('token');
+
+        $user = Socialite::driver('facebook')->stateless()->userFromToken($token);
+
         //validate data
         $this->validate($request, [
             'name' => 'required',
@@ -134,10 +142,10 @@ class UserController extends Controller
 
         //create data to insert
         $user = new User([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'facebook_id' => $request->input('facebook_id'),
-            'profile_img' => $request->input('profile_img')
+            'name' => $user->getName(),
+            'email' => $user->getEmail(),
+            'facebook_id' => $user->getId(),
+            'profile_img' => $user->getAvatar()
         ]);
 
         //save user
@@ -177,6 +185,10 @@ class UserController extends Controller
 
     public function signupLinkedIn(Request $request){
 
+        $token = $request->input('token');
+
+        $user = Socialite::driver('linkedin')->stateless()->userFromToken($token);
+
         //validate data
         $this->validate($request, [
             'name' => 'required',
@@ -187,10 +199,10 @@ class UserController extends Controller
 
         //create data to insert
         $user = new User([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'linked_in' => $request->input('linked_in'),
-            'profile_img' => $request->input('profile_img')
+            'name' => $user->getName(),
+            'email' => $user->getEmail(),
+            'linkedin_id' => $user->getId(),
+            'profile_img' => $user->getAvatar()
         ]);
 
         //save user

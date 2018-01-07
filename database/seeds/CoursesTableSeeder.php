@@ -310,13 +310,16 @@ class CoursesTableSeeder extends Seeder
                     $meeting->save();
                 }
 
-                // //create 0 to 10 ratings for each course
-                // $rand = rand(1, 10);
+                //create 0 to 10 ratings for each course
+                $rand = rand(0, 10);
 
-                // factory(Rating::class, $rand)->create([
-                //     'rateable_id' => $new_course->id, 
-                //     'rateable_type' => 'courses'
-                // ]);
+                if($rand){
+
+                    factory(Rating::class, $rand)->create([
+                        'rateable_id' => $new_course->id, 
+                        'rateable_type' => 'courses'
+                    ]);
+                }
             }
         });
     }

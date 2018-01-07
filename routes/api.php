@@ -96,10 +96,6 @@ Route::put('/role/{id}', ['uses' => 'RoleController@putRole']);
 Route::delete('/role/{id}', ['uses' => 'RoleController@deleteRole']);
 
 //User
-Route::post('/user', ['uses' => 'UserController@signup']);
-Route::post('/user/google', ['uses' => 'UserController@signupGoogle']);
-Route::post('/user/facebook', ['uses' => 'UserController@signupFacebook']);
-Route::post('/user/linkedin', ['uses' => 'UserController@signupLinkedIn']);
 Route::post('/user/check_email', ['uses' => 'UserController@checkEmail']);
 Route::get('/users', ['uses' => 'UserController@getUsers']);
 Route::get('/user/{id}', ['uses' => 'UserController@getUser']);
@@ -116,6 +112,10 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+	Route::post('signup', ['uses' => 'AuthController@signup']);
+	Route::post('google', ['uses' => 'AuthController@google']);
+	Route::post('facebook', ['uses' => 'AuthController@facebook']);
+	Route::post('linkedin', ['uses' => 'AuthController@linkedIn']);
 });
 
 //Search

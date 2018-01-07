@@ -11,12 +11,12 @@ use App\Student;
 use App\Role;
 use App\Rules\Roles;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Socialite;
 use Mail;
 use JWTAuth;
 
 class UserController extends Controller
 {
-    
     public function signup(Request $request){
 
         //validate data
@@ -39,8 +39,167 @@ class UserController extends Controller
 
         //get role
         $role = Role::select('id', 'label')
-                    ->where('label', $request->input('role'))
-                    ->first();
+                ->where('label', $request->input('role'))
+                ->first();
+
+
+        //save role
+        $user->roles()->save($role);
+
+        //save user type
+        if($role->label == 'student'){
+            $student = new Student;
+            $student->user_id = $user->id;
+            $student->save();
+        }
+        else if($role->label == 'instructor'){
+            $instructor = new Instructor;
+            $instructor->user_id = $user->id;
+            $instructor->save();
+        }
+        else if($role->label == 'institution'){
+            $institution = new Institution;
+            $institution->user_id = $user->id;
+            $institution->save();
+        }
+
+        //return success message
+        return response()->json([
+            'message' => 'Successfully created user!'
+        ], 201);
+    }
+
+    public function signupGoogle(Request $request){
+
+        //validate data
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'google_id' => 'required',
+            'role' => ['required', new Roles]
+        ]);
+
+        //create data to insert
+        $user = new User([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'google_id' => $request->input('google_id'),
+            'profile_img' => $request->input('profile_img')
+        ]);
+
+        //save user
+        $user->save();
+
+        //get role
+        $role = Role::select('id', 'label')
+                ->where('label', $request->input('role'))
+                ->first();
+
+
+        //save role
+        $user->roles()->save($role);
+
+        //save user type
+        if($role->label == 'student'){
+            $student = new Student;
+            $student->user_id = $user->id;
+            $student->save();
+        }
+        else if($role->label == 'instructor'){
+            $instructor = new Instructor;
+            $instructor->user_id = $user->id;
+            $instructor->save();
+        }
+        else if($role->label == 'institution'){
+            $institution = new Institution;
+            $institution->user_id = $user->id;
+            $institution->save();
+        }
+
+        //return success message
+        return response()->json([
+            'message' => 'Successfully created user!'
+        ], 201);
+    }
+
+    public function signupFacebook(Request $request){
+
+        //validate data
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'facebook_id' => 'required',
+            'role' => ['required', new Roles]
+        ]);
+
+        //create data to insert
+        $user = new User([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'facebook_id' => $request->input('facebook_id'),
+            'profile_img' => $request->input('profile_img')
+        ]);
+
+        //save user
+        $user->save();
+
+        //get role
+        $role = Role::select('id', 'label')
+                ->where('label', $request->input('role'))
+                ->first();
+
+
+        //save role
+        $user->roles()->save($role);
+
+        //save user type
+        if($role->label == 'student'){
+            $student = new Student;
+            $student->user_id = $user->id;
+            $student->save();
+        }
+        else if($role->label == 'instructor'){
+            $instructor = new Instructor;
+            $instructor->user_id = $user->id;
+            $instructor->save();
+        }
+        else if($role->label == 'institution'){
+            $institution = new Institution;
+            $institution->user_id = $user->id;
+            $institution->save();
+        }
+
+        //return success message
+        return response()->json([
+            'message' => 'Successfully created user!'
+        ], 201);
+    }
+
+    public function signupLinkedIn(Request $request){
+
+        //validate data
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'linked_in' => 'required',
+            'role' => ['required', new Roles]
+        ]);
+
+        //create data to insert
+        $user = new User([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'linked_in' => $request->input('linked_in'),
+            'profile_img' => $request->input('profile_img')
+        ]);
+
+        //save user
+        $user->save();
+
+        //get role
+        $role = Role::select('id', 'label')
+                ->where('label', $request->input('role'))
+                ->first();
 
 
         //save role

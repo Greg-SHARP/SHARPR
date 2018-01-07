@@ -97,6 +97,9 @@ Route::delete('/role/{id}', ['uses' => 'RoleController@deleteRole']);
 
 //User
 Route::post('/user', ['uses' => 'UserController@signup']);
+Route::post('/user/google', ['uses' => 'UserController@signupGoogle']);
+Route::post('/user/facebook', ['uses' => 'UserController@signupFacebook']);
+Route::post('/user/linkedin', ['uses' => 'UserController@signupLinkedIn']);
 Route::post('/user/check_email', ['uses' => 'UserController@checkEmail']);
 Route::get('/users', ['uses' => 'UserController@getUsers']);
 Route::get('/user/{id}', ['uses' => 'UserController@getUser']);

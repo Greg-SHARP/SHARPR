@@ -264,7 +264,7 @@ class AuthController extends Controller
             'app_secret' => $client_secret,
             'default_graph_version' => 'v2.2'
         ]);
-
+        
         $helper = $fb->getJavaScriptHelper();
 
         try {
@@ -282,11 +282,14 @@ class AuthController extends Controller
         if (! isset($accessToken)) {
           echo 'No cookie set or no OAuth data could be obtained from cookie.';
           exit;
+
         }
 
         // Logged in
         echo '<h3>Access Token</h3>';
         var_dump($accessToken->getValue());
+
+        exit();
 
         // $providerUser = Socialite::driver('facebook')->stateless()->userFromToken($token);
 

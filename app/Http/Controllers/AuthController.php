@@ -265,40 +265,59 @@ class AuthController extends Controller
             'default_graph_version' => 'v2.2'
         ]);
 
-        $helper = $fb->getJavaScriptHelper();
+        $jsHelper = $fb->getJavaScriptHelper();
+        $signedRequest = $jsHelper->getSignedRequest();
 
-        try {
-          $accessToken = $helper->getAccessToken();
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {        
-
-            return response()->json([
-                'error' => 'Graph returned an error: ' . $e->getMessage()
-            ], 409);
-
-            exit();
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {       
+        if ($signedRequest) {
+          $payload = $signedRequest->getPayload();
 
             return response()->json([
-                'error' => 'Facebook SDK returned an error: ' . $e->getMessage()
-            ], 409);
-
-            exit();
-        }
-
-        if (! isset($accessToken)) {
-
-            return response()->json([
-                'message' => 'No cookie set or no OAuth data could be obtained from cookie.'
+                'message' => var_dump($payload)
             ], 201);
 
             exit();
         }
 
         return response()->json([
-            'message' => var_dump($accessToken->getValue())
-        ], 201);
+            'error' => 'Invalid credentials'
+        ], 409);
 
-        exit();
+        // exit();
+
+        // $helper = $fb->getJavaScriptHelper();
+
+        // try {
+        //   $accessToken = $helper->getAccessToken();
+        // } catch(Facebook\Exceptions\FacebookResponseException $e) {        
+
+        //     return response()->json([
+        //         'error' => 'Graph returned an error: ' . $e->getMessage()
+        //     ], 409);
+
+        //     exit();
+        // } catch(Facebook\Exceptions\FacebookSDKException $e) {       
+
+        //     return response()->json([
+        //         'error' => 'Facebook SDK returned an error: ' . $e->getMessage()
+        //     ], 409);
+
+        //     exit();
+        // }
+
+        // if (! isset($accessToken)) {
+
+        //     return response()->json([
+        //         'message' => 'No cookie set or no OAuth data could be obtained from cookie.'
+        //     ], 201);
+
+        //     exit();
+        // }
+
+        // return response()->json([
+        //     'message' => var_dump($accessToken->getValue())
+        // ], 201);
+
+        // exit();
 
         // $providerUser = Socialite::driver('facebook')->stateless()->userFromToken($token);
 

@@ -264,30 +264,39 @@ class AuthController extends Controller
             'app_secret' => $client_secret,
             'default_graph_version' => 'v2.2'
         ]);
-        
+
         $helper = $fb->getJavaScriptHelper();
 
         try {
           $accessToken = $helper->getAccessToken();
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
-          // When Graph returns an error
-          echo 'Graph returned an error: ' . $e->getMessage();
-          exit;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
-          // When validation fails or other local issues
-          echo 'Facebook SDK returned an error: ' . $e->getMessage();
-          exit;
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {        
+
+            return response()->json([
+                'error' => 'Graph returned an error: ' . $e->getMessage()
+            ], 409);
+
+            exit();
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {       
+
+            return response()->json([
+                'error' => 'Facebook SDK returned an error: ' . $e->getMessage()
+            ], 409);
+
+            exit();
         }
 
         if (! isset($accessToken)) {
-          echo 'No cookie set or no OAuth data could be obtained from cookie.';
-          exit;
 
+            return response()->json([
+                'message' => 'No cookie set or no OAuth data could be obtained from cookie.'
+            ], 201);
+
+            exit();
         }
 
-        // Logged in
-        echo '<h3>Access Token</h3>';
-        var_dump($accessToken->getValue());
+        return response()->json([
+            'message' => var_dump($accessToken->getValue())
+        ], 201);
 
         exit();
 

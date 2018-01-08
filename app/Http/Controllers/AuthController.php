@@ -268,6 +268,12 @@ class AuthController extends Controller
         $jsHelper = $fb->getJavaScriptHelper();
         $signedRequest = $jsHelper->getSignedRequest();
 
+            return response()->json([
+                'message' => $signedRequest
+            ], 201);
+
+            exit();
+
         if ($signedRequest) {
           $payload = $signedRequest->getPayload();
 
@@ -275,12 +281,14 @@ class AuthController extends Controller
                 'message' => $payload
             ], 201);
 
-          exit();
+            exit();
         }
 
         return response()->json([
             'error' => 'Invalid credentials'
         ], 409);
+
+        exit();
 
         // $providerUser = Socialite::driver('facebook')->stateless()->userFromToken($token);
 

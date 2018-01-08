@@ -265,22 +265,28 @@ class AuthController extends Controller
             'default_graph_version' => 'v2.2'
         ]);
 
-        $jsHelper = $fb->getJavaScriptHelper();
-        $signedRequest = $jsHelper->getSignedRequest();
+        $helper = $fb->getJavaScriptHelper();
 
-        if ($signedRequest) {
-          $payload = $signedRequest->getPayload();
-
-            return response()->json([
-                'message' => $payload
-            ], 201);
-
-          exit();
+        try {
+          $accessToken = $helper->getAccessToken();
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+          // When Graph returns an error
+          echo 'Graph returned an error: ' . $e->getMessage();
+          exit;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+          // When validation fails or other local issues
+          echo 'Facebook SDK returned an error: ' . $e->getMessage();
+          exit;
         }
 
-        return response()->json([
-            'error' => 'Invalid credentials'
-        ], 409);
+        if (! isset($accessToken)) {
+          echo 'No cookie set or no OAuth data could be obtained from cookie.';
+          exit;
+        }
+
+        // Logged in
+        echo '<h3>Access Token</h3>';
+        var_dump($accessToken->getValue());
 
         // $providerUser = Socialite::driver('facebook')->stateless()->userFromToken($token);
 

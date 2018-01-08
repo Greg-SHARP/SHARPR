@@ -10,6 +10,7 @@
         "doctrine/dbal": "^2.5",
         "fideloper/proxy": "~3.3",
         "fzaninotto/faker": "~1.4",
+        "google/apiclient": "^2.2",
         "guzzlehttp/guzzle": "~5.3|~6.0",
         "laravel/framework": "5.5.*",
         "laravel/socialite": "^3.0",

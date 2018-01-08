@@ -14,6 +14,7 @@ use App\Role;
 use App\Rules\Roles;
 use JWTAuth;
 use Socialite;
+use Google_Client;
 
 class AuthController extends Controller
 {
@@ -181,58 +182,74 @@ class AuthController extends Controller
 
     public function google(Request $request){
 
+        $client_id = env('GOOGLE_CLIENT_ID');
+        $client_secret = env('GOOGLE_CLIENT_SECRET');
         $token = $request->input('token');
 
-        $providerUser = Socialite::driver('google')->stateless()->userFromToken($token);
+        $client = new Google_Client([
+            'client_id' => $client_id,
+            'client_secret' => $client_secret
+        ]);
 
-        if(!$providerUser->getEmail()){
+        $result = $client->verifyIdToken($token);
+
+        if($result) {
+
+            //get details
+            $name        = $result['name'];
+            $email       = $result['email'];
+            $google_id   = $result['sub'];
+            $profile_img = $result['picture'];
+
+            $user = User::query()->firstOrNew([ 'email' => $email ]);
+
+            if(!$user->exists) {
+
+                $user->name = $name;
+                $user->google_id = $google_id;
+                $user->profile_img = $profile_img;
+                $user->name = $name;
+                $user->save(); 
+
+                //get role
+                $role = Role::select('id', 'label')
+                        ->where('label', $request->input('role'))
+                        ->first();
+
+
+                //save role
+                $user->roles()->save($role);
+
+                //save user type
+                if($role->label == 'student'){
+                    $student = new Student;
+                    $student->user_id = $user->id;
+                    $student->save();
+                }
+                else if($role->label == 'instructor'){
+                    $instructor = new Instructor;
+                    $instructor->user_id = $user->id;
+                    $instructor->save();
+                }
+                else if($role->label == 'institution'){
+                    $institution = new Institution;
+                    $institution->user_id = $user->id;
+                    $institution->save();
+                }
+            }
+
+            //create token
+            $token = JWTAuth::fromUser($user);
+
+            //send token back
+            return $this->respondWithToken($token);
+        }
+        else {
 
             return response()->json([
-                'error' => 'No email given.'
+                'error' => 'Invalid credentials.'
             ], 409);
         }
-
-        $user = User::query()->firstOrNew([ 'email' => $providerUser->getEmail() ]);
-
-        if(!$user->exists) {
-            $user->name = $providerUser->getName();
-            $user->google_id = $providerUser->getId();
-            $user->profile_img = $providerUser->getAvatar();
-            $user->name = $providerUser->getName();
-            $user->save(); 
-
-            //get role
-            $role = Role::select('id', 'label')
-                    ->where('label', $request->input('role'))
-                    ->first();
-
-
-            //save role
-            $user->roles()->save($role);
-
-            //save user type
-            if($role->label == 'student'){
-                $student = new Student;
-                $student->user_id = $user->id;
-                $student->save();
-            }
-            else if($role->label == 'instructor'){
-                $instructor = new Instructor;
-                $instructor->user_id = $user->id;
-                $instructor->save();
-            }
-            else if($role->label == 'institution'){
-                $institution = new Institution;
-                $institution->user_id = $user->id;
-                $institution->save();
-            }
-        }
-
-        //create token
-        $token = JWTAuth::fromUser($user);
-
-        //send token back
-        return $this->respondWithToken($token);
     }
 
     public function facebook(Request $request){

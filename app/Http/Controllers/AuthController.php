@@ -185,6 +185,13 @@ class AuthController extends Controller
 
         $providerUser = Socialite::driver('google')->stateless()->userFromToken($token);
 
+        if(!$providerUser->getEmail()){
+
+            return response()->json([
+                'error' => 'No email given.'
+            ], 409);
+        }
+
         $user = User::query()->firstOrNew([ 'email' => $providerUser->getEmail() ]);
 
         if(!$user->exists) {
@@ -234,6 +241,13 @@ class AuthController extends Controller
 
         $providerUser = Socialite::driver('facebook')->stateless()->userFromToken($token);
 
+        if(!$providerUser->getEmail()){
+
+            return response()->json([
+                'error' => 'No email given.'
+            ], 409);
+        }
+
         $user = User::query()->firstOrNew([ 'email' => $providerUser->getEmail() ]);
 
         if(!$user->exists) {
@@ -282,6 +296,13 @@ class AuthController extends Controller
         $token = $request->input('token');
 
         $providerUser = Socialite::driver('linkedin')->stateless()->userFromToken($token);
+
+        if(!$providerUser->getEmail()){
+
+            return response()->json([
+                'error' => 'No email given.'
+            ], 409);
+        }
 
         $user = User::query()->firstOrNew([ 'email' => $providerUser->getEmail() ]);
 

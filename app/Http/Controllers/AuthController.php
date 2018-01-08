@@ -15,6 +15,7 @@ use App\Rules\Roles;
 use JWTAuth;
 use Socialite;
 use Google_Client;
+use Facebook\Facebook;
 
 class AuthController extends Controller
 {
@@ -254,58 +255,83 @@ class AuthController extends Controller
 
     public function facebook(Request $request){
 
+        $client_id = env('FACEBOOK_CLIENT_ID');
+        $client_secret = env('FACEBOOK_CLIENT_SECRET');
         $token = $request->input('token');
 
-        $providerUser = Socialite::driver('facebook')->stateless()->userFromToken($token);
+        $fb = new Facebook([
+            'app_id' => $client_id,
+            'app_secret' => $client_secret,
+            'default_graph_version' => 'v2.2'
+        ]);
 
-        if(!$providerUser->getEmail()){
+        $jsHelper = $fb->getJavaScriptHelper();
+        $signedRequest = $jsHelper->getSignedRequest();
+
+        if ($signedRequest) {
+          $payload = $signedRequest->getPayload();
 
             return response()->json([
-                'error' => 'No email given.'
-            ], 409);
+                'message' => $payload
+            ], 201);
+
+          exit();
         }
 
-        $user = User::query()->firstOrNew([ 'email' => $providerUser->getEmail() ]);
+        return response()->json([
+            'error' => 'Invalid credentials'
+        ], 409);
 
-        if(!$user->exists) {
-            $user->name = $providerUser->getName();
-            $user->facebook_id = $providerUser->getId();
-            $user->profile_img = $providerUser->getAvatar();
-            $user->name = $providerUser->getName();
-            $user->save(); 
+        // $providerUser = Socialite::driver('facebook')->stateless()->userFromToken($token);
 
-            //get role
-            $role = Role::select('id', 'label')
-                    ->where('label', $request->input('role'))
-                    ->first();
+        // if(!$providerUser->getEmail()){
+
+        //     return response()->json([
+        //         'error' => 'No email given.'
+        //     ], 409);
+        // }
+
+        // $user = User::query()->firstOrNew([ 'email' => $providerUser->getEmail() ]);
+
+        // if(!$user->exists) {
+        //     $user->name = $providerUser->getName();
+        //     $user->facebook_id = $providerUser->getId();
+        //     $user->profile_img = $providerUser->getAvatar();
+        //     $user->name = $providerUser->getName();
+        //     $user->save(); 
+
+        //     //get role
+        //     $role = Role::select('id', 'label')
+        //             ->where('label', $request->input('role'))
+        //             ->first();
 
 
-            //save role
-            $user->roles()->save($role);
+        //     //save role
+        //     $user->roles()->save($role);
 
-            //save user type
-            if($role->label == 'student'){
-                $student = new Student;
-                $student->user_id = $user->id;
-                $student->save();
-            }
-            else if($role->label == 'instructor'){
-                $instructor = new Instructor;
-                $instructor->user_id = $user->id;
-                $instructor->save();
-            }
-            else if($role->label == 'institution'){
-                $institution = new Institution;
-                $institution->user_id = $user->id;
-                $institution->save();
-            }
-        }
+        //     //save user type
+        //     if($role->label == 'student'){
+        //         $student = new Student;
+        //         $student->user_id = $user->id;
+        //         $student->save();
+        //     }
+        //     else if($role->label == 'instructor'){
+        //         $instructor = new Instructor;
+        //         $instructor->user_id = $user->id;
+        //         $instructor->save();
+        //     }
+        //     else if($role->label == 'institution'){
+        //         $institution = new Institution;
+        //         $institution->user_id = $user->id;
+        //         $institution->save();
+        //     }
+        // }
 
-        //create token
-        $token = JWTAuth::fromUser($user);
+        // //create token
+        // $token = JWTAuth::fromUser($user);
 
-        //send token back
-        return $this->respondWithToken($token);
+        // //send token back
+        // return $this->respondWithToken($token);
     }
 
     public function linkedIn(Request $request){

@@ -13,9 +13,7 @@ use App\Student;
 use App\Role;
 use App\Rules\Roles;
 use JWTAuth;
-use Socialite;
 use Google_Client;
-use Facebook\Facebook;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
@@ -211,7 +209,6 @@ class AuthController extends Controller
                 $user->name = $name;
                 $user->google_id = $google_id;
                 $user->profile_img = $profile_img;
-                $user->name = $name;
                 $user->save(); 
 
                 //get role
@@ -240,12 +237,19 @@ class AuthController extends Controller
                     $institution->save();
                 }
             }
+            else{
+                if(!$user->google_id){
+                    return response()->json([
+                        'error' => 'Email belongs to another account.'
+                    ], 401);
+                }
 
-            //create token
-            $token = JWTAuth::fromUser($user);
+                //create token
+                $token = JWTAuth::fromUser($user);
 
-            //send token back
-            return $this->respondWithToken($token);
+                //send token back
+                return $this->respondWithToken($token);
+            }
         }
         else {
 
@@ -298,7 +302,6 @@ class AuthController extends Controller
                 $user->name = $name;
                 $user->facebook_id = $facebook_id;
                 $user->profile_img = $profile_img;
-                $user->name = $name;
                 $user->save(); 
 
                 //get role
@@ -327,12 +330,20 @@ class AuthController extends Controller
                     $institution->save();
                 }
             }
+            else{
 
-            //create token
-            $token = JWTAuth::fromUser($user);
+                if(!$user->facebook_id){
+                    return response()->json([
+                        'error' => 'Email belongs to another account.'
+                    ], 401);
+                }
 
-            //send token back
-            return $this->respondWithToken($token);
+                //create token
+                $token = JWTAuth::fromUser($user);
+
+                //send token back
+                return $this->respondWithToken($token);
+            }
         }
         else {
 
@@ -344,24 +355,14 @@ class AuthController extends Controller
 
     public function linkedIn(Request $request){
 
-        $token = $request->input('token');
+        $email = $request->input('email');
 
-        $providerUser = Socialite::driver('linkedin')->stateless()->userFromToken($token);
-
-        if(!$providerUser->getEmail()){
-
-            return response()->json([
-                'error' => 'No email given.'
-            ], 409);
-        }
-
-        $user = User::query()->firstOrNew([ 'email' => $providerUser->getEmail() ]);
+        $user = User::query()->firstOrNew([ 'email' => $email ]);
 
         if(!$user->exists) {
-            $user->name = $providerUser->getName();
-            $user->linkedin_id = $providerUser->getId();
-            $user->profile_img = $providerUser->getAvatar();
-            $user->name = $providerUser->getName();
+            $user->name = $request->input('name');
+            $user->linkedin_id = $request->input('linkedin_id');
+            $user->profile_img = $request->input('profile_img');
             $user->save(); 
 
             //get role
@@ -390,11 +391,18 @@ class AuthController extends Controller
                 $institution->save();
             }
         }
+        else{
+            if(!$user->linkedin_id){
+                return response()->json([
+                    'error' => 'Email belongs to another account.'
+                ], 401);
+            }
 
-        //create token
-        $token = JWTAuth::fromUser($user);
+            //create token
+            $token = JWTAuth::fromUser($user);
 
-        //send token back
-        return $this->respondWithToken($token);
+            //send token back
+            return $this->respondWithToken($token);
+        }
     }
 }

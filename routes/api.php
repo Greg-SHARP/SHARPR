@@ -115,7 +115,7 @@ Route::group([
 	Route::post('signup', ['uses' => 'AuthController@signup']);
 	Route::post('google', ['uses' => 'AuthController@google']);
 	Route::post('facebook', ['uses' => 'AuthController@facebook']);
-	Route::post('linkedin', ['uses' => 'AuthController@linkedIn']);
+	Route::post('linkedin', ['uses' => 'AuthController@linkedin']);
 });
 
 //Search

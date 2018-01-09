@@ -352,7 +352,7 @@ class AuthController extends Controller
         }
     }
 
-    public function linkedIn(Request $request){
+    public function linkedin(Request $request){
 
         $email = $request->input('email');
 

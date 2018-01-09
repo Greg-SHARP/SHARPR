@@ -281,19 +281,18 @@ class AuthController extends Controller
 
             $result = json_decode($result->getBody()->getContents());
 
+            if(!isset($result->email)){
+
+                return response()->json([
+                    'error' => 'Email required!'
+                ], 409);
+            }
 
             //get details
             $name        = $result->name;
             $email       = $result->email;
             $facebook_id = $result->id;
             $profile_img = $result->picture->data->url;
-
-            if(!$email) {
-
-                return response()->json([
-                    'error' => 'Email required!'
-                ], 409);
-            }
 
             $user = User::query()->firstOrNew([ 'email' => $email ]);
 

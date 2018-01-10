@@ -77,6 +77,23 @@ class AuthController extends Controller
         //set new array
         $user->roles = array_unique($roles);
 
+        //if student, include student
+        if(in_array('student', $user->roles)){
+            $user->load('student');
+            $user->student->load('courses');
+            $user->student->load('addresses');
+        }
+
+        //if instructor, include instructor
+        if(in_array('instructor', $user->roles)){
+            $user->load('instructor');
+        }
+
+        //if institution, include institution
+        if(in_array('institution', $user->roles)){
+            $user->load('institution');
+        }
+
         return response()->json($user);
     }
 

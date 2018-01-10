@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App;
 use App\User;
 use App\Course;
 use App\Instructor;
@@ -100,7 +101,7 @@ class UserController extends Controller
             ];
 
             //check to see if we are including a token
-            if($request->input('token')){
+            if(JWTAuth::getToken()){
 
                 //get user
                 if($user = JWTAuth::parseToken()->authenticate()){
@@ -125,13 +126,16 @@ class UserController extends Controller
                 $data['phone'] = $request->input('phone');
             }
 
-            //send emails
-            Mail::send('emails.booking', $data, function ($message) {
+            if(!App::environment('local', 'testing')) {
 
-                $message->from('booking@shrpr.co', 'Shrpr Bookings');
-                $message->to('bd@shrpr.co')->cc('mike@shrpr.co');
-                $message->subject('Shrpr: Course Booked!');
-            });
+                //send emails
+                Mail::send('emails.booking', $data, function ($message) {
+
+                    $message->from('booking@shrpr.co', 'Shrpr Bookings');
+                    $message->to('bd@shrpr.co')->cc('mike@shrpr.co');
+                    $message->subject('Shrpr: Course Booked!');
+                });
+            }
 
             return response()->json([
                 'message' => 'Course Booked!'

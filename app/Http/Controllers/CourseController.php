@@ -51,7 +51,7 @@ class CourseController extends Controller
         }
 
         //check if token is provided
-        if($request->input('token')){
+        if(JWTAuth::getToken()){
 
             //get user
             $user = JWTAuth::parseToken()->authenticate();

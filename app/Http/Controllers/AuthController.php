@@ -28,6 +28,7 @@ class AuthController extends Controller
     {
         $this->middleware('auth:api', ['except' => [
             'login', 
+            'refresh',
             'signup', 
             'google', 
             'facebook', 

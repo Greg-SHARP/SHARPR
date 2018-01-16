@@ -126,7 +126,7 @@ class UserController extends Controller
                 $data['phone'] = $request->input('phone');
             }
 
-            if(!App::environment('local', 'testing')) {
+            if(!App::environment('local')) {
 
                 //send emails
                 Mail::send('emails.booking', $data, function ($message) {

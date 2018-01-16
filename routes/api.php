@@ -22,22 +22,13 @@ Route::delete('/category/{id}', ['uses' => 'CategoryController@deleteCourse']);
 
 //Course
 Route::post('/course', ['uses' => 'CourseController@postCourse']);
-
-Route::get('/courses', [
-	'uses' => 'CourseController@getCourses'
-]);
-
+Route::get('/courses', ['uses' => 'CourseController@getCourses']);
 Route::get('/course/{id}', ['uses' => 'CourseController@getCourse']);
 Route::put('/course/{id}', ['uses' => 'CourseController@putCourse']);
 Route::delete('/course/{id}', ['uses' => 'CourseController@deleteCourse']);
-
-Route::post('/course/{id}/like', [
-	'uses' => 'CourseController@likeCourse'
-]);
-
-Route::post('/course/{id}/dislike', [
-	'uses' => 'CourseController@dislikeCourse'
-]);
+Route::post('/course/{id}/like', ['uses' => 'CourseController@likeCourse']);
+Route::post('/course/{id}/dislike', ['uses' => 'CourseController@dislikeCourse']);
+Route::post('/course/suggest', ['uses' => 'CourseController@suggest']);
 
 //Semester
 Route::post('/semester', ['uses' => 'SemesterController@postSemester']);

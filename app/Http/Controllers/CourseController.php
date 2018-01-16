@@ -400,6 +400,27 @@ class CourseController extends Controller
         }
     }
 
+    public function suggest(Request $request){
+
+        if(!App::environment('local')) {
+
+            //validate data
+            $this->validate($request, [
+                'suggestion' => 'required|min:100'
+            ]);
+
+            //send emails
+            Mail::send('emails.suggestion', $data, function ($message) {
+
+                $message->from('booking@shrpr.co', 'Shrpr Bookings');
+                $message->to('bd@shrpr.co');
+                $message->subject('Shrpr: Course Suggestion!');
+            });
+        }
+
+        return response()->json(['message' => 'Email sent!'], 201);
+    }
+
     private function checkArray($array){
 
         foreach($array as $value){

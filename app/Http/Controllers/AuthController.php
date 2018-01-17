@@ -254,6 +254,12 @@ class AuthController extends Controller
                     $institution->user_id = $user->id;
                     $institution->save();
                 }
+
+                //create token
+                $token = JWTAuth::fromUser($user);
+
+                //send token back
+                return $this->respondWithToken($token);
             }
             else{
                 if(!$user->google_id){
@@ -346,6 +352,12 @@ class AuthController extends Controller
                     $institution->user_id = $user->id;
                     $institution->save();
                 }
+
+                //create token
+                $token = JWTAuth::fromUser($user);
+
+                //send token back
+                return $this->respondWithToken($token);
             }
             else{
 

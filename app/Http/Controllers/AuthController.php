@@ -258,8 +258,8 @@ class AuthController extends Controller
             else{
                 if(!$user->google_id){
                     return response()->json([
-                        'error' => 'Email belongs to another account.'
-                    ], 401);
+                        'message' => 'Email belongs to another account.'
+                    ], 409);
                 }
 
                 //create token
@@ -272,7 +272,7 @@ class AuthController extends Controller
         else {
 
             return response()->json([
-                'error' => 'Invalid credentials.'
+                'message' => 'Invalid credentials.'
             ], 409);
         }
     }
@@ -302,7 +302,7 @@ class AuthController extends Controller
             if(!isset($result->email)){
 
                 return response()->json([
-                    'error' => 'Email required!'
+                    'message' => 'Email required!'
                 ], 409);
             }
 
@@ -351,8 +351,8 @@ class AuthController extends Controller
 
                 if(!$user->facebook_id){
                     return response()->json([
-                        'error' => 'Email belongs to another account.'
-                    ], 401);
+                        'message' => 'Email belongs to another account.'
+                    ], 409);
                 }
 
                 //create token
@@ -365,7 +365,7 @@ class AuthController extends Controller
         else {
 
             return response()->json([
-                'error' => 'Invalid credentials.'
+                'message' => 'Invalid credentials.'
             ], 409);
         }
     }
@@ -411,8 +411,8 @@ class AuthController extends Controller
         else{
             if(!$user->linkedin_id){
                 return response()->json([
-                    'error' => 'Email belongs to another account.'
-                ], 401);
+                    'message' => 'Email belongs to another account.'
+                ], 409);
             }
 
             //create token

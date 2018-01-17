@@ -12,7 +12,11 @@ $factory->define(Student::class, function (Faker $faker) {
 		
 		'contact' => $faker->randomElement($status),
 		'secondary_email' => $faker->unique()->safeEmail,
-		'secondary_phone' => $faker->unique()->tollFreePhoneNumber
+		'secondary_phone' => $faker->unique()->tollFreePhoneNumber,
+        'url' => $faker->url,
+        'twitter' => $faker->url,
+        'facebook' => $faker->url,
+        'linkedin' => $faker->url
 	];
 
     return [

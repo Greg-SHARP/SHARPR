@@ -33,11 +33,33 @@ class CourseController extends Controller
     }
     public function getCourses(Request $request){
 
-        //return only currently open courses
-        $courses = Course::whereHas('semesters', function ($query){
+        //check if semesters was provided
+        if($request->input('semesters')){
 
-           $query->where('availability', 'open');
-        });
+            $semesters = $request->input('semesters');
+
+            $courses = Course::whereHas('semesters', function ($query) use ($semesters){
+
+                $query->whereIn('id', $semesters);
+                $query->where('availability', 'open');
+            })
+            ->with(['semesters' => function($query) use ($semesters){
+
+                $query->select('id','course_id','amount','availability','primary_img');
+                $query->whereIn('id', $semesters);
+                $query->with('addresses');
+            }]);
+        }
+        else{
+
+            //return only currently open courses
+            $courses = Course::whereHas('semesters', function ($query){
+
+               $query->where('availability', 'open');
+            })
+            ->with('semesters:id,course_id,amount,availability,primary_img')
+            ->with('semesters.addresses');
+        }
 
         //check if group was provided
         if($request->input('group')){
@@ -196,8 +218,6 @@ class CourseController extends Controller
         ->with('group')
         ->with('instructor:id,name,email')
         ->with('institution.user')
-        ->with('semesters:id,course_id,amount,availability,primary_img')
-        ->with('semesters.addresses')
         ->with('categories', 'tags')
         ->inRandomOrder();
 

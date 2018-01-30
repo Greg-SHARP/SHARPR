@@ -88,6 +88,7 @@ class AuthController extends Controller
         //if instructor, include instructor
         if(in_array('instructor', $user->roles)){
             $user->load('instructor');
+            $user->instructor->load('addresses');
         }
 
         //if institution, include institution

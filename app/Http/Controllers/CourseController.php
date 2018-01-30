@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 use App\Course;
 use App\User;
 use App\Dislike;
 use App\Like;
 use JWTAuth;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {

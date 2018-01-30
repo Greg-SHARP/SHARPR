@@ -66,11 +66,9 @@ Route::put('/meeting/{id}', ['uses' => 'MeetingController@putMeetings']);
 Route::delete('/meeting/{id}', ['uses' => 'MeetingController@deleteMeeting']);
 
 //Student
-Route::post('/student', ['uses' => 'StudentController@postStudent']);
 Route::get('/students', ['uses' => 'StudentController@getStudents']);
 Route::get('/student/{id}', ['uses' => 'StudentController@getStudent']);
-Route::put('/student/{id}', ['uses' => 'StudentController@putStudent']);
-Route::delete('/student/{id}', ['uses' => 'StudentController@deleteStudent']);
+Route::put('/student', ['uses' => 'StudentController@putStudent'])->middleware('auth');
 
 //Tag
 Route::post('/tag', ['uses' => 'TagController@postTag']);

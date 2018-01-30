@@ -3,21 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Student;
+use App\Address;
+use JWTAuth;
 
 class StudentController extends Controller
 {
-    public function postStudent(Request $request){
-
-    	$student = new Student();
-    	
-    	$student->user_id = $request->input('user_id');
-    	$student->details = $request->input('details');
-
-    	$student->save();
-
-    	return response()->json(['student' => $student], 201);
-    }
     public function getStudents(){
 
     	$students = Student::with('addresses')
@@ -48,6 +40,7 @@ class StudentController extends Controller
 
     	return response()->json($response, 200);
     }
+
     public function getStudent($id){
 
     	$student = Student::whereHas('user', function ($query) use ($id){
@@ -78,28 +71,50 @@ class StudentController extends Controller
 
         return response()->json($student, 200);
     }
-    public function putStudent(Request $request, $id){
 
-    	$student = Student::find($id);
+    public function putStudent(Request $request){
 
-    	if(!$student){
+        //get user
+        $user = JWTAuth::parseToken()->authenticate();
 
-    		return response()->json(['message' => 'Student not found'], 404);
-    	}
-    	
-    	$student->user_id = $request->input('user_id');
-    	$student->details = $request->input('details');
+        //save name
+        if($request->input('name')) {
 
-    	$student->save();
+            //validate data
+            $this->validate($request, [
+                'name' => 'required'
+            ]);
 
-    	return response()->json(['student' => $student], 200);
-    }
-    public function deleteStudent($id){
+            $user->name = $request->input('name');
+            $user->profile_img = $request->input('profile_img');
 
-    	$student = Student::find($id);
+            $user->save();
+        }
 
-    	$student->delete();
+        //save phone
+        if($request->input('phone')) {
 
-    	return response()->json(['message' => 'Student deleted'], 200);
+            $user->student->phone = $request->input('phone');
+
+            $user->student->save();
+        }
+
+        //save details
+        if($request->input('details')) {
+
+            //decode details
+            $user->student->details = collect(json_decode($user->student->details));
+
+            //merge
+            $user->student->details = $user->student->details->merge($request->input('details'));
+
+            //encode
+            $user->student->details = json_encode($user->student->details);
+
+            //save student
+            $user->student->save();
+        }
+
+        return response()->json(['message' => 'Student Saved!'], 200);
     }
 }

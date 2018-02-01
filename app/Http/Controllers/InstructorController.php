@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Instructor;
+use App\Address;
+use JWTAuth;
 
 class InstructorController extends Controller
 {

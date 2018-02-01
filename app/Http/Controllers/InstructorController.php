@@ -7,17 +7,6 @@ use App\Instructor;
 
 class InstructorController extends Controller
 {
-    public function postInstructor(Request $request){
-
-    	$instructor = new Instructor();
-    	
-    	$instructor->user_id = $request->input('user_id');
-    	$instructor->details = $request->input('details');
-
-    	$instructor->save();
-
-    	return response()->json(['instructor' => $instructor], 201);
-    }
     public function getInstructors(){
 
     	$instructors = Instructor::with('addresses')
@@ -48,6 +37,7 @@ class InstructorController extends Controller
 
     	return response()->json($response, 200);
     }
+
     public function getInstructor($id){
 
         $instructor = Instructor::whereHas('user', function ($query) use ($id){
@@ -78,28 +68,50 @@ class InstructorController extends Controller
 
     	return response()->json($instructor, 200);
     }
-    public function putInstructor(Request $request, $id){
 
-    	$instructor = Instructor::find($id);
+    public function putInstructor(Request $request){
 
-    	if(!$instructor){
+        //get user
+        $user = JWTAuth::parseToken()->authenticate();
 
-    		return response()->json(['message' => 'Instructor not found'], 404);
-    	}
-    	
-    	$instructor->user_id = $request->input('user_id');
-    	$instructor->details = $request->input('details');
+        //save name
+        if($request->input('name')) {
 
-    	$instructor->save();
+            //validate data
+            $this->validate($request, [
+                'name' => 'required'
+            ]);
 
-    	return response()->json(['instructor' => $instructor], 200);
-    }
-    public function deleteInstructor($id){
+            $user->name = $request->input('name');
+            $user->profile_img = $request->input('profile_img');
 
-    	$instructor = Instructor::find($id);
+            $user->save();
+        }
 
-    	$instructor->delete();
+        //save phone
+        if($request->input('phone')) {
 
-    	return response()->json(['message' => 'Instructor deleted'], 200);
+            $user->instructor->phone = $request->input('phone');
+
+            $user->instructor->save();
+        }
+
+        //save details
+        if($request->input('details')) {
+
+            //decode details
+            $user->instructor->details = collect(json_decode($user->instructor->details));
+
+            //merge
+            $user->instructor->details = $user->instructor->details->merge($request->input('details'));
+
+            //encode
+            $user->instructor->details = json_encode($user->instructor->details);
+
+            //save instructor
+            $user->instructor->save();
+        }
+
+        return response()->json(['message' => 'Instructor Saved!'], 200);
     }
 }

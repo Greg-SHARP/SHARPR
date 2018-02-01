@@ -44,13 +44,6 @@ Route::get('/certificate/{id}', ['uses' => 'CertificateController@getCertificate
 Route::put('/certificate/{id}', ['uses' => 'CertificateController@putCertificate']);
 Route::delete('/certificate/{id}', ['uses' => 'CertificateController@deleteCertificate']);
 
-//Instructor
-Route::post('/instructor', ['uses' => 'InstructorController@postInstructor']);
-Route::get('/instructors', ['uses' => 'InstructorController@getInstructors']);
-Route::get('/instructor/{id}', ['uses' => 'InstructorController@getInstructor']);
-Route::put('/instructor/{id}', ['uses' => 'InstructorController@putInstructor']);
-Route::delete('/instructor/{id}', ['uses' => 'InstructorController@deleteInstructor']);
-
 //Institution
 Route::post('/institution', ['uses' => 'InstitutionController@postInstitution']);
 Route::get('/institutions', ['uses' => 'InstitutionController@getInstitutions']);
@@ -69,6 +62,11 @@ Route::delete('/meeting/{id}', ['uses' => 'MeetingController@deleteMeeting']);
 Route::get('/students', ['uses' => 'StudentController@getStudents']);
 Route::get('/student/{id}', ['uses' => 'StudentController@getStudent']);
 Route::put('/student', ['uses' => 'StudentController@putStudent'])->middleware('auth');
+
+//Instructor
+Route::get('/instructors', ['uses' => 'InstructorController@getInstructors']);
+Route::get('/instructor/{id}', ['uses' => 'InstructorController@getInstructor']);
+Route::put('/instructor', ['uses' => 'InstructorController@putInstructor'])->middleware('auth');
 
 //Tag
 Route::post('/tag', ['uses' => 'TagController@postTag']);

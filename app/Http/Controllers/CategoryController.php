@@ -23,11 +23,7 @@ class CategoryController extends Controller
 
     	$categories = Category::all();
 
-    	$response = [
-    		'categories' => $categories
-    	];
-
-    	return response()->json($response, 200);
+    	return response()->json($categories, 200);
     }
     public function getCategory($id){
 

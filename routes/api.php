@@ -21,7 +21,7 @@ Route::put('/category/{id}', ['uses' => 'CategoryController@putCategory']);
 Route::delete('/category/{id}', ['uses' => 'CategoryController@deleteCourse']);
 
 //Course
-Route::post('/course', ['uses' => 'CourseController@postCourse']);
+Route::post('/course', ['uses' => 'CourseController@postCourse'])->middleware('auth');
 Route::get('/courses', ['uses' => 'CourseController@getCourses']);
 Route::get('/course/{id}', ['uses' => 'CourseController@getCourse']);
 Route::put('/course/{id}', ['uses' => 'CourseController@putCourse']);

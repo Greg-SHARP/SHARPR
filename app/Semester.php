@@ -13,6 +13,8 @@ class Semester extends Model
     protected $appends = [
         'duration', 'start_date', 'end_date'
     ];
+    
+    protected $guarded = [];
 
     /**
      * The duration of the semester

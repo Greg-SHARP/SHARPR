@@ -9,6 +9,8 @@ class Address extends Model
 	protected $hidden = [
 		'id', 'addressable_id', 'addressable_type', 'pivot', 'created_at', 'updated_at'
 	];
+    
+    protected $guarded = [];
 
     /**
      * Get all of the owning addressable models

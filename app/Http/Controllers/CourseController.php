@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use App\Course;
+use App\Semester;
+use App\Meeting;
 use App\User;
+use App\Address;
 use App\Dislike;
 use App\Like;
 use JWTAuth;
@@ -17,20 +20,7 @@ class CourseController extends Controller
     {
         $this->middleware('jwt.refresh')->only('refresh');
     }
-    
-    public function postCourse(Request $request){
 
-    	$course = new Course();
-
-    	$course->name          = $request->input('name');
-    	$course->instructor_id = $request->input('instructor_id');
-    	$course->amount        = $request->input('amount');
-    	$course->availability  = $request->input('availability');
-
-    	$course->save();
-
-    	return response()->json(['course' => $course], 201);
-    }
     public function getCourses(Request $request){
 
         //check if semesters was provided
@@ -309,6 +299,76 @@ class CourseController extends Controller
 
     	return response()->json($course, 200);
     }
+    
+    public function postCourse(Request $request){
+
+        //validate data
+        $this->validate($request, [
+            'group_id' => 'required',
+            'instructor' => 'required',
+            'title' => 'required',
+            'description' => 'required|min:40'
+        ]);
+
+        //new course
+        $course = new Course();
+
+        $course->title       = $request->input('title');
+        $course->group_id    = $request->input('group_id');
+        $course->instructor  = $request->input('instructor');
+        $course->description = $request->input('description');
+
+        //save course
+        $course->save();
+
+        //attach categories
+        $course->categories()->attach($request->input('categories'));
+
+        //new semester
+        $semester = new Semester();
+
+        $semester->amount      = $request->input('semesters.0.amount');
+        $semester->primary_img = $request->input('semesters.0.primary_img');
+        $semester->details     = json_encode($request->input('semesters.0.details'));
+
+        //save semester
+        $course->semesters()->save($semester);
+
+        //new address
+        $address = new Address();
+
+        $address->type          = 'primary';
+        $address->streetAddress = $request->input('semesters.0.addresses.0.streetAddress');
+        $address->city          = $request->input('semesters.0.addresses.0.city');
+        $address->state         = $request->input('semesters.0.addresses.0.state');
+        $address->zip           = $request->input('semesters.0.addresses.0.zip');
+        $address->country       = 'United States';
+
+        //save address
+        $semester->addresses()->save($address);
+
+        foreach($request->input('semesters.0.meetings') as $i) {
+
+            //new meeting
+            $meeting = new Meeting();
+
+            $meeting->start = $i['start'];
+            $meeting->end   = $i['end'];
+
+            //save meeting
+            $semester->meetings()->save($meeting);
+        }
+
+        $course = $course
+                    ->load('group')
+                    ->load('instructor:id,name,email')
+                    ->load('institution.user')
+                    ->load('categories', 'tags', 'semesters', 'semesters.addresses', 'ratings')
+                    ->load('semesters.meetings');
+
+        return response()->json($course, 201);
+    }
+
     public function putCourse(Request $request, $id){
 
     	$course = Course::find($id);

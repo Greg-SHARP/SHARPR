@@ -107,3 +107,14 @@ Route::group([
 
 //Search
 Route::get('/search', ['uses' => 'SearchController@search']);
+
+//Like
+Route::group([
+
+    'middleware' => 'auth',
+    'prefix' => 'likes'
+
+], function ($router) {
+
+    Route::get('courses', 'LikeController@getCourses');
+});

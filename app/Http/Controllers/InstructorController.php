@@ -14,6 +14,7 @@ class InstructorController extends Controller
 
     	$instructors = Instructor::with('addresses')
             ->with('user:id,name,email,dob,profile_img,status,verified,referred_by')
+            ->with('courses.semesters.addresses')
             ->with('ratings')
             ->get();
 
@@ -48,8 +49,8 @@ class InstructorController extends Controller
             $query->where('id', $id);
         })
         ->with('user:id,name,email,dob,status,profile_img,verified,referred_by')
+        ->with('courses.semesters.addresses')
         ->with('ratings')
-        ->with('addresses')
         ->first();
 
         if(!$instructor){

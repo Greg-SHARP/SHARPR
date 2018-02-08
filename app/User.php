@@ -75,6 +75,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany('App\Dislike');
     }
+
+    /**
+     * The ratings that belong to the user
+     */
+    public function ratings()
+    {
+        return $this->hasMany('App\Rating');
+    }
     
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

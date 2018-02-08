@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Rating extends Model
 {
 	protected $hidden = [
-		'rateable_id', 'rateable_type', 'pivot', 'created_at', 'updated_at'
+		'user_id', 'rateable_id', 'rateable_type', 'pivot'
 	];
 
     /**
@@ -16,5 +16,13 @@ class Rating extends Model
     public function rateable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * The user associate with the rating
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 }

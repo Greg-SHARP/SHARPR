@@ -58,6 +58,12 @@ Route::get('/meeting/{id}', ['uses' => 'MeetingController@getMeeting']);
 Route::put('/meeting/{id}', ['uses' => 'MeetingController@putMeetings']);
 Route::delete('/meeting/{id}', ['uses' => 'MeetingController@deleteMeeting']);
 
+//Rating
+Route::get('/ratings/{type}/{id}', ['uses' => 'RatingController@getRatings']);
+Route::get('/rating/{type}/{id}', ['uses' => 'RatingController@getRating'])->middleware('auth');
+Route::post('/rating/{type}/{id}', ['uses' => 'RatingController@postRating'])->middleware('auth');
+Route::put('/rating/{type}/{id}', ['uses' => 'RatingController@putRating'])->middleware('auth');
+
 //Student
 Route::get('/students', ['uses' => 'StudentController@getStudents']);
 Route::get('/student/{id}', ['uses' => 'StudentController@getStudent']);
@@ -111,7 +117,7 @@ Route::get('/search', ['uses' => 'SearchController@search']);
 //Like
 Route::group([
 
-    'middleware' => 'auth',
+    'middleware' => 'api',
     'prefix' => 'likes'
 
 ], function ($router) {

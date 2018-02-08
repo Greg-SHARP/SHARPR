@@ -21,6 +21,14 @@ class Course extends Model
     {
         return $this->hasOne('App\User', 'id', 'instructor');
     }
+    
+    /**
+     * Get the post that owns the comment.
+     */
+    public function post()
+    {
+        return $this->belongsTo('App\Post');
+    }
 
     /**
      * The institution to course belongs to

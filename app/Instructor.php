@@ -29,6 +29,14 @@ class Instructor extends Model
     }
 
     /**
+     * Get the courses for the instructor
+     */
+    public function courses()
+    {
+        return $this->hasMany('App\Course', 'instructor', 'user_id');
+    }
+
+    /**
      * Get all of the instructor's ratings
      */
     public function ratings()
@@ -37,7 +45,7 @@ class Instructor extends Model
     }
 
     /**
-     * The rating of the course
+     * The rating of the instructor
      */
     public function getRatingAttribute()
     {

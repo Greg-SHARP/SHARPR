@@ -480,6 +480,30 @@ class CourseController extends Controller
         }
     }
 
+    public function removeCourse($id){
+
+        //get user
+        $user = JWTAuth::parseToken()->authenticate();
+
+        //get like
+        $like = Like::where('user_id', $user->id)
+                    ->where('likeable_type', 'courses')
+                    ->where('likeable_id', $id);
+
+        //get like
+        if($like){
+
+            //delete like
+            $like->delete();
+
+            return response()->json(['message' => 'Like Removed!'], 201);
+        }
+        else{
+
+            return response()->json(['message' => 'Error: Like not found!'], 404);
+        }
+    }
+
     public function suggest(Request $request){
 
         if(!App::environment('local')) {

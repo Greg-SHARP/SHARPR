@@ -28,6 +28,7 @@ Route::put('/course/{id}', ['uses' => 'CourseController@putCourse']);
 Route::delete('/course/{id}', ['uses' => 'CourseController@deleteCourse']);
 Route::post('/course/{id}/like', ['uses' => 'CourseController@likeCourse']);
 Route::post('/course/{id}/dislike', ['uses' => 'CourseController@dislikeCourse']);
+Route::delete('/course/{id}/remove', ['uses' => 'CourseController@removeCourse']);
 Route::post('/course/suggest', ['uses' => 'CourseController@suggest']);
 
 //Semester
